@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BridgeTrace-AI | Live Demo</title>
 
+  <meta
+    name="description"
+    content="Interactive demo simulating AI-driven financial traceability between banking systems and blockchain."
+  />
+
   <link rel="stylesheet" href="../../assets/css/style.css" />
 </head>
 
@@ -12,24 +17,49 @@
 
   <header>
     <h1>BridgeTrace-AI</h1>
-    <p>Financial Traceability Demo using AI & Graph Intelligence</p>
+    <p>AI-powered Financial Traceability • Graph Intelligence Demo</p>
   </header>
 
   <section>
-    <h2>🔍 Transaction Analysis</h2>
+    <h2>🔍 Transaction Trace Simulation</h2>
 
     <p>
-      This interactive demo simulates how BridgeTrace-AI analyzes
-      financial flows between banking systems and blockchain networks.
+      This demo simulates how BridgeTrace-AI analyzes financial flows
+      between traditional banking systems and blockchain networks,
+      identifying risk signals and anomalous behavior.
     </p>
 
-    <!-- UI será adicionada no próximo passo -->
+    <div class="card">
+      <h3>Transaction Input</h3>
+
+      <label>Transaction ID</label>
+      <input type="text" id="txId" placeholder="TX-982173" />
+
+      <label>Amount (USD)</label>
+      <input type="number" id="amount" placeholder="5000" />
+
+      <label>Destination</label>
+      <select id="destination">
+        <option value="bank">Traditional Bank</option>
+        <option value="blockchain">Blockchain Wallet</option>
+      </select>
+
+      <br /><br />
+
+      <button onclick="analyzeTransaction()">Analyze Transaction</button>
+    </div>
+
+    <div class="card" id="resultCard" style="display:none;">
+      <h3>AI Risk Analysis</h3>
+      <p id="analysisResult"></p>
+    </div>
+
   </section>
 
   <footer>
-    © 2026 Felipe Fernandes • Demo Environment
+    © 2026 Felipe Fernandes • BridgeTrace-AI Demo
   </footer>
 
+  <script src="demo.js"></script>
 </body>
 </html>
-
