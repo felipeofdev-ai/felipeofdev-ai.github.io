@@ -1,264 +1,48 @@
-/* ===============================
-   RESET & BASE
-================================ */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab, .panel').forEach(el => el.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.tab).classList.add('active');
+  });
+});
+
+function runTrace() {
+  document.getElementById('traceResult').textContent =
+`Trace completed:
+bank_001 → pix_002 → crypto_004`;
 }
 
-:root {
-    --bg: #0b0f14;
-    --bg-soft: #111827;
-    --card: #0f172a;
-    --text: #e5e7eb;
-    --muted: #9ca3af;
-    --accent: #38bdf8;
-    --accent-soft: rgba(56, 189, 248, 0.15);
-    --border: rgba(255,255,255,0.08);
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-    background: radial-gradient(1200px 600px at top, #0f172a, var(--bg));
-    color: var(--text);
-    line-height: 1.6;
-}
-
-/* ===============================
-   UTILITIES
-================================ */
-.container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 1.5rem;
-}
-
-.section-title {
-    font-size: 2.2rem;
-    text-align: center;
-    margin-bottom: 3rem;
-    letter-spacing: -0.02em;
-}
-
-.highlight {
-    color: var(--accent);
-}
-
-/* ===============================
-   HERO
-================================ */
-.hero {
-    padding: 7rem 0 6rem;
-    text-align: center;
-    animation: fadeUp 1s ease forwards;
-}
-
-.hero h1 {
-    font-size: clamp(2.5rem, 6vw, 3.8rem);
-    font-weight: 800;
-    letter-spacing: -0.03em;
-}
-
-.subtitle {
-    max-width: 620px;
-    margin: 1.2rem auto 2.2rem;
-    color: var(--muted);
-    font-size: 1.1rem;
-}
-
-.buttons {
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.btn {
-    padding: 0.8rem 1.6rem;
-    border-radius: 10px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.25s ease;
-}
-
-.btn-primary {
-    background: linear-gradient(135deg, var(--accent), #0ea5e9);
-    color: #020617;
-}
-
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 15px 40px var(--accent-soft);
-}
-
-.btn-secondary {
-    border: 1px solid var(--border);
-    color: var(--text);
-    background: rgba(255,255,255,0.02);
-}
-
-.btn-secondary:hover {
-    background: rgba(255,255,255,0.06);
-}
-
-.tech-icons {
-    margin-top: 2.2rem;
-    color: var(--muted);
-    font-size: 0.95rem;
-}
-
-/* ===============================
-   FEATURES
-================================ */
-.features {
-    padding: 6rem 0;
-}
-
-.cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1.6rem;
-}
-
-.card {
-    background: linear-gradient(180deg, var(--card), #020617);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 2rem 1.8rem;
-    text-align: center;
-    transition: all 0.35s ease;
-    animation: fadeUp 1s ease forwards;
-}
-
-.card i {
-    color: var(--accent);
-    margin-bottom: 1rem;
-}
-
-.card h3 {
-    margin-bottom: 0.6rem;
-    font-size: 1.15rem;
-}
-
-.card p {
-    color: var(--muted);
-    font-size: 0.95rem;
-}
-
-.card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 25px 60px rgba(0,0,0,0.5);
-    border-color: rgba(56,189,248,0.35);
-}
-
-/* ===============================
-   DEMO
-================================ */
-.demo {
-    padding: 6rem 0;
-    text-align: center;
-}
-
-.demo p {
-    color: var(--muted);
-}
-
-.demo-tabs {
-    display: flex;
-    justify-content: center;
-    gap: 0.8rem;
-    margin: 2.2rem 0 1.2rem;
-    flex-wrap: wrap;
-}
-
-.demo-tab {
-    padding: 0.6rem 1.2rem;
-    border-radius: 999px;
-    border: 1px solid var(--border);
-    background: rgba(255,255,255,0.03);
-    color: var(--text);
-    cursor: pointer;
-    transition: all 0.25s ease;
-}
-
-.demo-tab.active,
-.demo-tab:hover {
-    background: var(--accent-soft);
-    border-color: var(--accent);
-    color: var(--accent);
-}
-
-.demo-note {
-    font-size: 0.85rem;
-    opacity: 0.7;
-}
-
-/* ===============================
-   CTA
-================================ */
-.cta {
-    padding: 6rem 0;
-    text-align: center;
-    background: radial-gradient(600px 300px at center, rgba(56,189,248,0.12), transparent);
-}
-
-.cta h2 {
-    margin-bottom: 1.8rem;
-    font-size: 2rem;
-}
-
-/* ===============================
-   FOOTER
-================================ */
-.footer {
-    padding: 3rem 1rem;
-    text-align: center;
-    font-size: 0.85rem;
-    color: var(--muted);
-}
-
-.footer a {
-    color: var(--accent);
-    text-decoration: none;
-}
-
-.disclaimer {
-    margin-top: 0.6rem;
-    opacity: 0.6;
-}
-
-/* ===============================
-   ANIMATIONS
-================================ */
-@keyframes fadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(18px);
+const ctx = document.getElementById('riskChart');
+if (ctx) {
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ['Low', 'Medium', 'High'],
+      datasets: [{
+        label: 'Risk Score',
+        data: [20, 50, 85]
+      }]
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  });
 }
 
-/* ===============================
-   RESPONSIVE
-================================ */
-@media (max-width: 640px) {
-    .hero {
-        padding-top: 5rem;
-    }
+const graphContainer = document.getElementById('graphView');
+if (graphContainer) {
+  const data = {
+    nodes: new vis.DataSet([
+      { id: 1, label: 'Bank' },
+      { id: 2, label: 'PIX' },
+      { id: 3, label: 'Crypto' }
+    ]),
+    edges: new vis.DataSet([
+      { from: 1, to: 2 },
+      { from: 2, to: 3 }
+    ])
+  };
+  new vis.Network(graphContainer, data, {});
+}
 
-    .section-title {
-        font-size: 1.8rem;
-    }
-
-    .subtitle {
-        font-size: 1rem;
-    }
+function runAI() {
+  document.getElementById('aiResult').textContent =
+'AI Explanation:\nFunds show indirect exposure risk.';
 }
