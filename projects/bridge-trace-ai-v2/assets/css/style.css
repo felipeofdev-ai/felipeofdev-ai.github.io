@@ -1,48 +1,86 @@
-document.querySelectorAll('.tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.tab, .panel').forEach(el => el.classList.remove('active'));
-    tab.classList.add('active');
-    document.getElementById(tab.dataset.tab).classList.add('active');
-  });
-});
-
-function runTrace() {
-  document.getElementById('traceResult').textContent =
-`Trace completed:
-bank_001 → pix_002 → crypto_004`;
+* {
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
 }
 
-const ctx = document.getElementById('riskChart');
-if (ctx) {
-  new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: ['Low', 'Medium', 'High'],
-      datasets: [{
-        label: 'Risk Score',
-        data: [20, 50, 85]
-      }]
-    }
-  });
+body {
+  margin: 0;
+  background: #0e1117;
+  color: #e6edf3;
 }
 
-const graphContainer = document.getElementById('graphView');
-if (graphContainer) {
-  const data = {
-    nodes: new vis.DataSet([
-      { id: 1, label: 'Bank' },
-      { id: 2, label: 'PIX' },
-      { id: 3, label: 'Crypto' }
-    ]),
-    edges: new vis.DataSet([
-      { from: 1, to: 2 },
-      { from: 2, to: 3 }
-    ])
-  };
-  new vis.Network(graphContainer, data, {});
+.hero {
+  padding: 80px 20px;
+  text-align: center;
+  background: radial-gradient(circle at top, #1f2937, #0e1117);
 }
 
-function runAI() {
-  document.getElementById('aiResult').textContent =
-'AI Explanation:\nFunds show indirect exposure risk.';
+.hero h1 span {
+  color: #58a6ff;
+}
+
+.actions a {
+  margin: 10px;
+  padding: 12px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #fff;
+  background: #238636;
+}
+
+main {
+  max-width: 1100px;
+  margin: auto;
+  padding: 40px 20px;
+}
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.tab {
+  background: #161b22;
+  border: none;
+  padding: 12px 20px;
+  color: #c9d1d9;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.tab.active {
+  background: #238636;
+}
+
+.panel {
+  display: none;
+  animation: fade 0.3s ease-in;
+}
+
+.panel.active {
+  display: block;
+}
+
+#graphView {
+  height: 400px;
+  background: #0d1117;
+  border-radius: 8px;
+}
+
+footer {
+  text-align: center;
+  padding: 40px;
+  opacity: 0.6;
+}
+
+@keyframes fade {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  .tabs {
+    flex-wrap: wrap;
+  }
 }
