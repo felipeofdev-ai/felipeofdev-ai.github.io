@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BridgeTrace AI v2.0 - Enterprise Financial Traceability Engine with AI">
+    <meta name="keywords" content="fintech, blockchain, pix, tracing, ai, compliance, graph-theory">
+    <meta name="author" content="Felipe de Oliveira Fernandes">
+    
+    <title>BridgeTrace AI v2.0 - Enterprise Financial Traceability</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌉</text></svg>">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <!-- Vis.js Network -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-background"></div>
+        <div class="container">
+            <nav class="navbar">
+                <div class="nav-brand">
+                    <i class="fas fa-project-diagram"></i>
+                    <span>BridgeTrace AI</span>
+                    <span class="version-badge">v2.0</span>
+                </div>
+                <div class="nav-links">
+                    <a href="#features" class="nav-link">Features</a>
+                    <a href="#demo" class="nav-link">Live Demo</a>
+                    <a href="#architecture" class="nav-link">Architecture</a>
+                    <a href="#docs" class="nav-link">Docs</a>
+                    <a href="https://github.com/felipeofdev-ai/BridgeTrace-AI" class="btn-primary" target="_blank">
+                        <i class="fab fa-github"></i> View on GitHub
+                    </a>
+                </div>
+                <button class="mobile-menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+            
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">
+                        Enterprise Financial
+                        <span class="gradient-text">Traceability Engine</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        Unified platform for tracing financial flows across Banking, PIX, and Blockchain networks using Graph Theory and Artificial Intelligence
+                    </p>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">3.5K+</div>
+                            <div class="stat-label">Lines of Code</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">55</div>
+                            <div class="stat-label">Files</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">15+</div>
+                            <div class="stat-label">Tests</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">100%</div>
+                            <div class="stat-label">Production Ready</div>
+                        </div>
+                    </div>
+                    <div class="hero-actions">
+                        <a href="#demo" class="btn-large btn-primary">
+                            <i class="fas fa-rocket"></i> Try Live Demo
+                        </a>
+                        <a href="https://github.com/felipeofdev-ai/BridgeTrace-AI" class="btn-large btn-secondary" target="_blank">
+                            <i class="fab fa-github"></i> Clone Repository
+                        </a>
+                    </div>
+                    <div class="tech-stack">
+                        <span class="tech-badge">Python 3.11</span>
+                        <span class="tech-badge">FastAPI</span>
+                        <span class="tech-badge">PostgreSQL</span>
+                        <span class="tech-badge">Redis</span>
+                        <span class="tech-badge">Docker</span>
+                        <span class="tech-badge">Kubernetes</span>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="graph-preview" id="heroGraph"></div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Enterprise Features</h2>
+                <p>Built for production environments with scalability, security, and observability</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <h3>Clean Architecture</h3>
+                    <p>Separation of concerns with API → Services → Repositories pattern</p>
+                    <ul class="feature-list">
+                        <li>Domain-Driven Design</li>
+                        <li>Dependency Injection</li>
+                        <li>SOLID Principles</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Enterprise Security</h3>
+                    <p>JWT authentication, encryption, and comprehensive audit logging</p>
+                    <ul class="feature-list">
+                        <li>JWT Tokens</li>
+                        <li>Password Hashing</li>
+                        <li>Input Validation</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Observability</h3>
+                    <p>Prometheus metrics, Grafana dashboards, and structured logging</p>
+                    <ul class="feature-list">
+                        <li>Metrics & Alerts</li>
+                        <li>Distributed Tracing</li>
+                        <li>Log Aggregation</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3>High Performance</h3>
+                    <p>Async Python, Redis caching, and connection pooling</p>
+                    <ul class="feature-list">
+                        <li>Async/Await</li>
+                        <li>Redis Cache</li>
+                        <li>Query Optimization</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>AI-Powered</h3>
+                    <p>LLM integration for natural language compliance explanations</p>
+                    <ul class="feature-list">
+                        <li>OpenAI Integration</li>
+                        <li>Compliance Reports</li>
+                        <li>Risk Analysis</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon" style="background: linear-gradient(135deg, #30cfd0 0%, #330867 100%);">
+                        <i class="fas fa-cubes"></i>
+                    </div>
+                    <h3>Container Native</h3>
+                    <p>Docker multi-stage builds and Kubernetes deployment ready</p>
+                    <ul class="feature-list">
+                        <li>Multi-stage Build</li>
+                        <li>K8s Ready</li>
+                        <li>Auto-scaling</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Demo Section -->
+    <section id="demo" class="demo-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Live Interactive Demo</h2>
+                <p>Experience the power of BridgeTrace AI in action</p>
+            </div>
+            
+            <div class="demo-container">
+                <div class="demo-tabs">
+                    <button class="demo-tab active" data-tab="trace">
+                        <i class="fas fa-route"></i> Transaction Tracing
+                    </button>
+                    <button class="demo-tab" data-tab="risk">
+                        <i class="fas fa-exclamation-triangle"></i> Risk Analysis
+                    </button>
+                    <button class="demo-tab" data-tab="graph">
+                        <i class="fas fa-project-diagram"></i> Graph Visualization
+                    </button>
+                    <button class="demo-tab" data-tab="ai">
+                        <i class="fas fa-brain"></i> AI Explanation
+                    </button>
+                </div>
+                
+                <!-- Trace Tab -->
+                <div class="demo-content active" data-content="trace">
+                    <div class="demo-grid">
+                        <div class="demo-panel">
+                            <h3>Configure Trace</h3>
+                            <div class="form-group">
+                                <label>Source Node</label>
+                                <select id="traceSource" class="demo-input">
+                                    <option value="bank_001">Bank Account - Banco X</option>
+                                    <option value="pix_001">PIX Key - CPF ***123</option>
+                                    <option value="crypto_001">BTC Wallet</option>
+                                    <option value="entity_001">Entity - ABC Ltd</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Max Hops</label>
+                                <input type="number" id="traceHops" class="demo-input" value="5" min="1" max="10">
+                            </div>
+                            <div class="form-group">
+                                <label>Min Amount (BRL)</label>
+                                <input type="number" id="traceAmount" class="demo-input" value="0" min="0" step="100">
+                            </div>
+                            <button class="btn-primary full-width" onclick="runTrace()">
+                                <i class="fas fa-play"></i> Run Trace
+                            </button>
+                            
+                            <div class="code-preview">
+                                <div class="code-header">
+                                    <span>API Request</span>
+                                    <button onclick="copyCode('trace-code')"><i class="fas fa-copy"></i></button>
+                                </div>
+                                <pre id="trace-code"><code>POST /api/v2/trace/
+{
+  "source_id": "bank_001",
+  "max_hops": 5,
+  "min_amount": 0.0
+}</code></pre>
+                            </div>
+                        </div>
+                        
+                        <div class="demo-panel">
+                            <h3>Results</h3>
+                            <div id="traceResults" class="results-display">
+                                <div class="empty-state">
+                                    <i class="fas fa-play-circle"></i>
+                                    <p>Click "Run Trace" to see results</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Risk Tab -->
+                <div class="demo-content" data-content="risk">
+                    <div class="demo-grid">
+                        <div class="demo-panel">
+                            <h3>Risk Analysis Configuration</h3>
+                            <div class="form-group">
+                                <label>Entity</label>
+                                <select id="riskEntity" class="demo-input">
+                                    <option value="entity_001">Entity - ABC Ltd</option>
+                                    <option value="bank_001">Bank Account</option>
+                                    <option value="crypto_001">Crypto Wallet</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Time Range (days)</label>
+                                <input type="number" id="riskDays" class="demo-input" value="30" min="1" max="365">
+                            </div>
+                            <button class="btn-primary full-width" onclick="runRiskAnalysis()">
+                                <i class="fas fa-chart-line"></i> Analyze Risk
+                            </button>
+                            
+                            <div class="risk-chart-container">
+                                <canvas id="riskChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <div class="demo-panel">
+                            <h3>Risk Report</h3>
+                            <div id="riskResults" class="results-display">
+                                <div class="empty-state">
+                                    <i class="fas fa-shield-alt"></i>
+                                    <p>Run analysis to view risk report</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Graph Tab -->
+                <div class="demo-content" data-content="graph">
+                    <div class="graph-controls">
+                        <button class="btn-secondary" onclick="resetGraph()">
+                            <i class="fas fa-sync"></i> Reset View
+                        </button>
+                        <button class="btn-secondary" onclick="exportGraph()">
+                            <i class="fas fa-download"></i> Export PNG
+                        </button>
+                    </div>
+                    <div id="networkGraph" class="network-graph-large"></div>
+                    <div class="graph-legend">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #2196F3;"></div>
+                            <span>Bank Account</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #9C27B0;"></div>
+                            <span>PIX Key</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #4CAF50;"></div>
+                            <span>Crypto Wallet</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #FF9800;"></div>
+                            <span>Entity</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- AI Tab -->
+                <div class="demo-content" data-content="ai">
+                    <div class="ai-demo">
+                        <div class="ai-input-panel">
+                            <h3>AI-Powered Explanation</h3>
+                            <p>Generate natural language compliance reports using LLM</p>
+                            <div class="form-group">
+                                <label>Transaction Data</label>
+                                <textarea id="aiInput" class="demo-textarea" rows="8" placeholder="Paste transaction trace data here..."></textarea>
+                            </div>
+                            <button class="btn-primary full-width" onclick="generateAIExplanation()">
+                                <i class="fas fa-magic"></i> Generate Explanation
+                            </button>
+                        </div>
+                        
+                        <div class="ai-output-panel">
+                            <h3>Generated Report</h3>
+                            <div id="aiResults" class="ai-results">
+                                <div class="empty-state">
+                                    <i class="fas fa-robot"></i>
+                                    <p>AI explanation will appear here</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section id="architecture" class="architecture-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>System Architecture</h2>
+                <p>Enterprise-grade design with clean separation of concerns</p>
+            </div>
+            
+            <div class="architecture-diagram">
+                <div class="arch-layer">
+                    <div class="layer-title">Presentation Layer</div>
+                    <div class="layer-content">
+                        <div class="arch-component">Web Dashboard</div>
+                        <div class="arch-component">REST API</div>
+                        <div class="arch-component">WebSocket</div>
+                    </div>
+                </div>
+                
+                <div class="arch-arrow">↓</div>
+                
+                <div class="arch-layer">
+                    <div class="layer-title">Application Layer</div>
+                    <div class="layer-content">
+                        <div class="arch-component">Trace Service</div>
+                        <div class="arch-component">Risk Service</div>
+                        <div class="arch-component">AI Service</div>
+                    </div>
+                </div>
+                
+                <div class="arch-arrow">↓</div>
+                
+                <div class="arch-layer">
+                    <div class="layer-title">Domain Layer</div>
+                    <div class="layer-content">
+                        <div class="arch-component">Business Logic</div>
+                        <div class="arch-component">Graph Algorithms</div>
+                        <div class="arch-component">Validators</div>
+                    </div>
+                </div>
+                
+                <div class="arch-arrow">↓</div>
+                
+                <div class="arch-layer">
+                    <div class="layer-title">Infrastructure Layer</div>
+                    <div class="layer-content">
+                        <div class="arch-component">PostgreSQL</div>
+                        <div class="arch-component">Redis</div>
+                        <div class="arch-component">Prometheus</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tech-details">
+                <div class="tech-detail-card">
+                    <i class="fas fa-code"></i>
+                    <h4>Backend</h4>
+                    <p>FastAPI • SQLAlchemy • Alembic • Pydantic</p>
+                </div>
+                <div class="tech-detail-card">
+                    <i class="fas fa-database"></i>
+                    <h4>Storage</h4>
+                    <p>PostgreSQL • Redis • NetworkX</p>
+                </div>
+                <div class="tech-detail-card">
+                    <i class="fas fa-chart-bar"></i>
+                    <h4>Monitoring</h4>
+                    <p>Prometheus • Grafana • Structlog</p>
+                </div>
+                <div class="tech-detail-card">
+                    <i class="fas fa-cogs"></i>
+                    <h4>DevOps</h4>
+                    <p>Docker • K8s • GitHub Actions</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Documentation Section -->
+    <section id="docs" class="docs-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Documentation & Resources</h2>
+                <p>Everything you need to get started and contribute</p>
+            </div>
+            
+            <div class="docs-grid">
+                <a href="https://github.com/felipeofdev-ai/BridgeTrace-AI#readme" class="doc-card" target="_blank">
+                    <i class="fas fa-book"></i>
+                    <h3>README</h3>
+                    <p>Complete project overview and quick start guide</p>
+                </a>
+                
+                <a href="https://github.com/felipeofdev-ai/BridgeTrace-AI/blob/main/docs/DEPLOYMENT.md" class="doc-card" target="_blank">
+                    <i class="fas fa-rocket"></i>
+                    <h3>Deployment Guide</h3>
+                    <p>Docker, K8s, and cloud platform instructions</p>
+                </a>
+                
+                <a href="https://github.com/felipeofdev-ai/BridgeTrace-AI/blob/main/docs/DEVELOPMENT.md" class="doc-card" target="_blank">
+                    <i class="fas fa-code"></i>
+                    <h3>Development Guide</h3>
+                    <p>Setup environment and contribution workflow</p>
+                </a>
+                
+                <a href="https://github.com/felipeofdev-ai/BridgeTrace-AI/blob/main/CONTRIBUTING.md" class="doc-card" target="_blank">
+                    <i class="fas fa-users"></i>
+                    <h3>Contributing</h3>
+                    <p>Guidelines for contributing to the project</p>
+                </a>
+                
+                <div class="doc-card api-docs">
+                    <i class="fas fa-file-code"></i>
+                    <h3>API Documentation</h3>
+                    <p>Interactive API explorer with Swagger UI</p>
+                    <div class="api-links">
+                        <a href="http://localhost:8000/api/v2/docs" class="api-link">Swagger UI</a>
+                        <a href="http://localhost:8000/api/v2/redoc" class="api-link">ReDoc</a>
+                    </div>
+                </div>
+                
+                <a href="https://github.com/felipeofdev-ai/BridgeTrace-AI" class="doc-card github-card" target="_blank">
+                    <i class="fab fa-github"></i>
+                    <h3>GitHub Repository</h3>
+                    <p>Full source code and issue tracking</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>BridgeTrace AI</h3>
+                    <p>Enterprise Financial Traceability Engine</p>
+                    <div class="social-links">
+                        <a href="https://github.com/felipeofdev-ai" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="https://linkedin.com/in/felipe-fernandes" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="mailto:felipe@bridgetrace.ai"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="https://github.com/felipeofdev-ai/BridgeTrace-AI">Documentation</a></li>
+                        <li><a href="http://localhost:8000/api/v2/docs">API Reference</a></li>
+                        <li><a href="https://github.com/felipeofdev-ai/BridgeTrace-AI/releases">Changelog</a></li>
+                        <li><a href="https://github.com/felipeofdev-ai/BridgeTrace-AI/blob/main/LICENSE">License</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Technology</h4>
+                    <ul>
+                        <li>Python 3.11</li>
+                        <li>FastAPI Framework</li>
+                        <li>PostgreSQL Database</li>
+                        <li>Docker & Kubernetes</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#demo">Live Demo</a></li>
+                        <li><a href="#architecture">Architecture</a></li>
+                        <li><a href="#docs">Documentation</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 BridgeTrace AI. Built with ❤️ by <a href="https://github.com/felipeofdev-ai">Felipe de Oliveira Fernandes</a></p>
+                <p class="disclaimer">For educational and demonstration purposes only. Uses 100% synthetic data.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <p>Processing...</p>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
