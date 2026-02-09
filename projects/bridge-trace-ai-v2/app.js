@@ -426,11 +426,15 @@ function switchDemoTab(tab) {
 }
 
 function executeTrace(event) {
-    // Prevent scroll behavior
+    // CRITICAL: Prevent ALL default behaviors and scroll
     if (event) {
         event.preventDefault();
         event.stopPropagation();
+        event.stopImmediatePropagation();
     }
+    
+    // Prevent any scroll behavior
+    const scrollY = window.scrollY;
     
     showLoading();
     
@@ -447,6 +451,9 @@ function executeTrace(event) {
         // Create trace graph
         createTraceGraph();
         hideLoading();
+        
+        // Restore scroll position if it changed
+        window.scrollTo(0, scrollY);
     }, 1500);
     
     return false;
@@ -454,6 +461,15 @@ function executeTrace(event) {
 
 function createTraceGraph() {
     const container = document.getElementById('traceGraph');
+    if (!container) {
+        console.error('traceGraph container not found');
+        return;
+    }
+    
+    // Destroy previous network if exists
+    if (traceNetwork) {
+        traceNetwork.destroy();
+    }
     
     const nodes = new vis.DataSet([
         { id: 1, label: 'Source', level: 0, color: { background: '#6366f1' }, font: { color: '#fff' } },
