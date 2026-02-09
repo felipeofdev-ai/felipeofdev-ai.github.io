@@ -1,69 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BridgeTrace AI Ultimate | Financial Intelligence Platform</title>
 
-  <title>Felipe Fernandes | AI Engineer</title>
+<meta name="description" content="Enterprise-grade financial traceability platform with AI-powered risk analysis" />
 
-  <meta name="description"
-        content="Felipe Fernandes – AI Engineer specializing in AI, FinTech and Graph Intelligence with real-world demos." />
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="Felipe Fernandes | AI Engineer" />
-  <meta property="og:description"
-        content="Real-world AI and FinTech demos featuring graph intelligence and risk analysis." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://felipeofdev-ai.github.io/" />
+<!-- Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-  <link rel="stylesheet" href="assets/css/style.css" />
+<!-- Vis Network (CORRIGIDO) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/vis-network.min.css">
+
+<!-- Styles -->
+<link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-<header>
-  <h1>Felipe Fernandes</h1>
-  <p>AI Engineer • FinTech • Graph Intelligence</p>
-</header>
+<!-- ================= SAFE FALLBACK JS ================= -->
+<script>
+/* Fallback para evitar quebra se app.js falhar */
+window.toggleLanguage ||= () => console.warn("toggleLanguage not loaded");
+window.setLanguage ||= () => console.warn("setLanguage not loaded");
+window.toggleMobileMenu ||= () => console.warn("toggleMobileMenu not loaded");
+window.switchDemoTab ||= () => console.warn("switchDemoTab not loaded");
+window.executeRiskAnalysis ||= () => console.warn("executeRiskAnalysis not loaded");
+window.generateAIReport ||= () => console.warn("generateAIReport not loaded");
+</script>
 
-<main>
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="#hero" class="nav-brand">
+      <i class="fas fa-project-diagram"></i>
+      <span>BridgeTrace <strong>AI</strong></span>
+      <span class="version-badge">v2.0</span>
+    </a>
 
-  <section>
-    <h2>🚀 Featured Project</h2>
-
-    <h3>Bridge Trace AI</h3>
-
-    <p>
-      Enterprise AI platform for financial traceability and risk analysis using
-      graph intelligence and explainable models.
-    </p>
-
-    <ul>
-      <li>Graph-based transaction modeling</li>
-      <li>Risk scoring & anomaly detection</li>
-      <li>Designed for FinTech & compliance</li>
-    </ul>
-
-    <p>
-      <a href="projects/bridge-trace-ai-v2/index.html">
-        ▶ Launch Live Demo
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#demo">Demo</a>
+      <a href="#architecture">Architecture</a>
+      <a href="https://github.com/felipeofdev-ai/BridgeTrace-AI" target="_blank" class="btn-primary btn-sm">
+        <i class="fab fa-github"></i> GitHub
       </a>
-    </p>
-  </section>
+    </div>
+  </div>
+</nav>
 
-  <section>
-    <h2>About</h2>
-    <p>
-      I build AI-driven systems focused on real-world problems in finance,
-      compliance and data intelligence.
-    </p>
-  </section>
+<!-- ================= HERO ================= -->
+<section id="hero" class="hero">
+  <div class="container hero-content">
+    <div class="hero-text">
+      <h1>Financial Intelligence <span class="gradient-text">Redefined</span></h1>
+      <p>Advanced traceability across Banking, PIX and Blockchain using AI-powered graph analysis.</p>
 
-</main>
+      <div class="hero-actions">
+        <a href="#demo" class="btn-primary btn-lg">Try Demo</a>
+        <a href="https://github.com/felipeofdev-ai/BridgeTrace-AI" class="btn-secondary btn-lg" target="_blank">
+          View Code
+        </a>
+      </div>
+    </div>
 
-<footer>
-  © 2026 Felipe Fernandes • Built with GitHub Pages
+    <div class="hero-visual">
+      <div id="heroGraph" class="graph-canvas"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FEATURES ================= -->
+<section id="features" class="section">
+  <div class="container">
+    <h2>Enterprise Features</h2>
+    <div class="features-grid">
+      <div class="feature-card">Multi-Hop Tracing</div>
+      <div class="feature-card">AI Risk Analysis</div>
+      <div class="feature-card">Unified Graph</div>
+      <div class="feature-card">Enterprise Security</div>
+      <div class="feature-card">Observability</div>
+      <div class="feature-card">High Performance</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= DEMO ================= -->
+<section id="demo" class="section">
+  <div class="container">
+    <h2>Live Demo</h2>
+    <div id="networkGraph" style="height:400px;"></div>
+  </div>
+</section>
+
+<!-- ================= ARCHITECTURE ================= -->
+<section id="architecture" class="section">
+  <div class="container">
+    <h2>Enterprise Architecture</h2>
+    <p>Clean architecture following best practices.</p>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="container">
+    <p>© 2026 BridgeTrace AI — Educational project with synthetic data.</p>
+  </div>
 </footer>
+
+<!-- ================= SCRIPTS (DEFER) ================= -->
+<script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/vis-network.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<!-- App -->
+<script defer src="app.js"></script>
 
 </body>
 </html>
