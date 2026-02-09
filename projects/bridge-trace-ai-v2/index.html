@@ -1,1148 +1,392 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="BridgeTrace AI - Plataforma Enterprise de Rastreabilidade Financeira com IA, Graph Theory e Análise de Risco em tempo real">
-    <meta name="keywords" content="fintech, rastreabilidade financeira, pix, blockchain, análise de risco, inteligência artificial, compliance, aml">
-    <title>BridgeTrace AI v2.0 | Enterprise Financial Traceability Platform</title>
+    <title>BridgeTrace AI Ultimate | Financial Intelligence Platform</title>
+    <meta name="description" content="Enterprise-grade financial traceability platform with AI-powered risk analysis">
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌉</text></svg>">
-    
-    <!-- Fonts -->
+    <!-- Fonts - Distinctive choices -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <!-- Chart.js for visualizations -->
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     
-    <!-- Vis.js for network graphs -->
+    <!-- Vis.js -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js"></script>
     
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #06b6d4;
-            --accent: #f59e0b;
-            --success: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --dark: #0f172a;
-            --darker: #020617;
-            --gray: #1e293b;
-            --gray-light: #334155;
-            --text: #f1f5f9;
-            --text-muted: #94a3b8;
-            --border: #334155;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: var(--darker);
-            color: var(--text);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* Navbar */
-        .navbar {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(15, 23, 42, 0.9);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
-            z-index: 1000;
-            padding: 1rem 0;
-        }
-
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .nav-brand {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--text);
-            text-decoration: none;
-        }
-
-        .nav-brand i {
-            color: var(--primary);
-            font-size: 1.75rem;
-        }
-
-        .version-badge {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            padding: 0.25rem 0.75rem;
-            border-radius: 999px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            margin-left: 0.5rem;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-        }
-
-        .nav-link {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-            font-size: 0.95rem;
-        }
-
-        .nav-link:hover {
-            color: var(--primary);
-        }
-
-        .btn-primary, .btn-secondary {
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            border: none;
-            cursor: pointer;
-            font-size: 0.95rem;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--text);
-            border: 2px solid var(--border);
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--primary);
-            background: rgba(99, 102, 241, 0.1);
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 8rem 2rem 4rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 80%, rgba(6, 182, 212, 0.15) 0%, transparent 50%);
-            animation: pulse 8s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .hero-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-content h1 {
-            font-size: 3.5rem;
-            font-weight: 900;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, #fff, var(--text-muted));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .gradient-text {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero-subtitle {
-            font-size: 1.25rem;
-            color: var(--text-muted);
-            margin-bottom: 2rem;
-            line-height: 1.8;
-        }
-
-        .hero-stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
-            margin: 3rem 0;
-        }
-
-        .stat-card {
-            background: rgba(51, 65, 85, 0.3);
-            border: 1px solid var(--border);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            text-align: center;
-            transition: all 0.3s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        .hero-actions {
-            display: flex;
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-
-        .btn-large {
-            padding: 1rem 2rem;
-            font-size: 1.1rem;
-        }
-
-        .tech-stack {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.75rem;
-            margin-top: 2rem;
-        }
-
-        .tech-badge {
-            background: rgba(51, 65, 85, 0.5);
-            border: 1px solid var(--border);
-            padding: 0.5rem 1rem;
-            border-radius: 999px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-muted);
-            transition: all 0.3s;
-        }
-
-        .tech-badge:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            transform: translateY(-2px);
-        }
-
-        /* Live Demo Visualization */
-        .hero-visual {
-            position: relative;
-        }
-
-        #heroGraph {
-            width: 100%;
-            height: 500px;
-            background: rgba(15, 23, 42, 0.5);
-            border: 1px solid var(--border);
-            border-radius: 1rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Features Section */
-        .section {
-            padding: 6rem 2rem;
-            position: relative;
-        }
-
-        .section-container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .section-header h2 {
-            font-size: 2.75rem;
-            font-weight: 900;
-            margin-bottom: 1rem;
-        }
-
-        .section-header p {
-            font-size: 1.25rem;
-            color: var(--text-muted);
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-        }
-
-        .feature-card {
-            background: rgba(30, 41, 59, 0.5);
-            border: 1px solid var(--border);
-            border-radius: 1rem;
-            padding: 2rem;
-            transition: all 0.3s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--primary);
-            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.2);
-        }
-
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.75rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .feature-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
-        }
-
-        .feature-card p {
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-            line-height: 1.8;
-        }
-
-        .feature-list {
-            list-style: none;
-        }
-
-        .feature-list li {
-            padding: 0.5rem 0;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .feature-list li::before {
-            content: '✓';
-            color: var(--success);
-            font-weight: 700;
-            font-size: 1.2rem;
-        }
-
-        /* Live Demo Section */
-        .demo-section {
-            background: rgba(30, 41, 59, 0.3);
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .demo-tabs {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            border-bottom: 2px solid var(--border);
-            overflow-x: auto;
-        }
-
-        .demo-tab {
-            padding: 1rem 2rem;
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            border-bottom: 3px solid transparent;
-            white-space: nowrap;
-        }
-
-        .demo-tab.active {
-            color: var(--primary);
-            border-bottom-color: var(--primary);
-        }
-
-        .demo-content {
-            display: none;
-        }
-
-        .demo-content.active {
-            display: block;
-        }
-
-        .demo-panel {
-            background: rgba(15, 23, 42, 0.5);
-            border: 1px solid var(--border);
-            border-radius: 1rem;
-            padding: 2rem;
-        }
-
-        .demo-controls {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .control-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-        }
-
-        .control-group label {
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: var(--text);
-        }
-
-        .control-group input,
-        .control-group select {
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid var(--border);
-            border-radius: 0.5rem;
-            padding: 0.75rem 1rem;
-            color: var(--text);
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-
-        .control-group input:focus,
-        .control-group select:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-        }
-
-        .demo-output {
-            margin-top: 2rem;
-            min-height: 400px;
-        }
-
-        #traceGraph,
-        #riskChart {
-            width: 100%;
-            height: 500px;
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid var(--border);
-            border-radius: 0.5rem;
-        }
-
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .metric-card {
-            background: rgba(15, 23, 42, 0.8);
-            border: 1px solid var(--border);
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            text-align: center;
-        }
-
-        .metric-value {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .metric-label {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* Architecture Section */
-        .arch-diagram {
-            background: rgba(30, 41, 59, 0.3);
-            border: 1px solid var(--border);
-            border-radius: 1rem;
-            padding: 3rem;
-            margin: 3rem 0;
-        }
-
-        .arch-layer {
-            background: rgba(15, 23, 42, 0.5);
-            border: 2px solid var(--border);
-            border-radius: 1rem;
-            padding: 2rem;
-            margin: 1rem 0;
-            transition: all 0.3s;
-        }
-
-        .arch-layer:hover {
-            border-color: var(--primary);
-            transform: translateX(10px);
-        }
-
-        .layer-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: var(--primary);
-        }
-
-        .layer-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-        }
-
-        .arch-component {
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            padding: 1rem;
-            border-radius: 0.5rem;
-            text-align: center;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .arch-arrow {
-            text-align: center;
-            font-size: 2rem;
-            color: var(--primary);
-            margin: 1rem 0;
-        }
-
-        /* Code Snippet */
-        .code-block {
-            background: rgba(15, 23, 42, 0.9);
-            border: 1px solid var(--border);
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            overflow-x: auto;
-            margin: 2rem 0;
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        .code-block pre {
-            margin: 0;
-            color: var(--text);
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        .code-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .code-language {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        .copy-btn {
-            background: rgba(99, 102, 241, 0.2);
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: all 0.3s;
-        }
-
-        .copy-btn:hover {
-            background: var(--primary);
-            color: white;
-        }
-
-        /* Status Badges */
-        .status-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .status-card {
-            background: rgba(30, 41, 59, 0.5);
-            border: 1px solid var(--border);
-            border-radius: 1rem;
-            padding: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .status-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-        }
-
-        .status-icon.online {
-            background: rgba(16, 185, 129, 0.2);
-            color: var(--success);
-        }
-
-        .status-icon.building {
-            background: rgba(245, 158, 11, 0.2);
-            color: var(--warning);
-        }
-
-        .status-info h4 {
-            font-size: 1.1rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .status-info p {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        /* Footer */
-        .footer {
-            background: rgba(15, 23, 42, 0.9);
-            border-top: 1px solid var(--border);
-            padding: 4rem 2rem 2rem;
-        }
-
-        .footer-container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 3rem;
-            margin-bottom: 3rem;
-        }
-
-        .footer-section h3 {
-            font-size: 1.25rem;
-            margin-bottom: 1rem;
-        }
-
-        .footer-section p {
-            color: var(--text-muted);
-            margin-bottom: 1rem;
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 0.5rem;
-        }
-
-        .footer-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-links a:hover {
-            color: var(--primary);
-        }
-
-        .social-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .social-link {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text);
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-
-        .social-link:hover {
-            background: var(--primary);
-            border-color: var(--primary);
-            transform: translateY(-3px);
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border);
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        /* Loading Spinner */
-        .spinner {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(99, 102, 241, 0.2);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(2, 6, 23, 0.9);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            gap: 1rem;
-            z-index: 9999;
-        }
-
-        .loading-overlay.show {
-            display: flex;
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .hero-container {
-                grid-template-columns: 1fr;
-                gap: 3rem;
-            }
-
-            .hero-content h1 {
-                font-size: 2.5rem;
-            }
-
-            .footer-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
-            .hero-stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .footer-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <!-- GSAP for advanced animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="#" class="nav-brand">
-                <i class="fas fa-project-diagram"></i>
-                <span>BridgeTrace AI</span>
-                <span class="version-badge">v2.0 LIVE</span>
-            </a>
-            <div class="nav-links">
-                <a href="#features" class="nav-link">Funcionalidades</a>
-                <a href="#demo" class="nav-link">Demo ao Vivo</a>
-                <a href="#architecture" class="nav-link">Arquitetura</a>
-                <a href="#status" class="nav-link">Status do Sistema</a>
-                <a href="https://github.com/felipeofdev-ai/BridgeTrace-AI" class="btn-primary" target="_blank">
-                    <i class="fab fa-github"></i> GitHub
-                </a>
+    <!-- Language Selector Modal -->
+    <div id="langModal" class="lang-modal">
+        <div class="lang-modal-content">
+            <h2 data-i18n="selectLanguage">Select Your Language</h2>
+            <div class="lang-options">
+                <button class="lang-option" onclick="setLanguage('en')">
+                    <span class="lang-flag">🇺🇸</span>
+                    <span class="lang-name">English</span>
+                </button>
+                <button class="lang-option" onclick="setLanguage('pt')">
+                    <span class="lang-flag">🇧🇷</span>
+                    <span class="lang-name">Português</span>
+                </button>
             </div>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#hero" class="nav-brand">
+                <div class="brand-icon">
+                    <i class="fas fa-project-diagram"></i>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-name">BridgeTrace</span>
+                    <span class="brand-suffix">AI</span>
+                </div>
+                <span class="version-badge">v2.0</span>
+            </a>
+            
+            <div class="nav-links">
+                <a href="#features" class="nav-link" data-i18n="nav.features">Features</a>
+                <a href="#demo" class="nav-link" data-i18n="nav.demo">Demo</a>
+                <a href="#architecture" class="nav-link" data-i18n="nav.architecture">Architecture</a>
+                <a href="https://github.com/felipeofdev-ai/BridgeTrace-AI" class="btn-primary btn-sm" target="_blank">
+                    <i class="fab fa-github"></i>
+                    <span data-i18n="nav.github">GitHub</span>
+                </a>
+                <button class="lang-toggle" onclick="toggleLanguage()">
+                    <i class="fas fa-globe"></i>
+                    <span id="currentLang">EN</span>
+                </button>
+            </div>
+            
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-container">
+    <section id="hero" class="hero">
+        <div class="hero-bg">
+            <div class="grid-overlay"></div>
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
+            <div class="gradient-orb orb-3"></div>
+        </div>
+        
+        <div class="container">
             <div class="hero-content">
-                <h1>
-                    Plataforma Enterprise de
-                    <span class="gradient-text">Rastreabilidade Financeira</span>
-                </h1>
-                <p class="hero-subtitle">
-                    Sistema unificado de rastreamento de fluxos financeiros através de redes bancárias, PIX e Blockchain usando Graph Theory, Inteligência Artificial e análise de risco em tempo real.
-                </p>
+                <div class="hero-text" data-animate="fade-up">
+                    <div class="hero-badge">
+                        <span class="badge-dot"></span>
+                        <span data-i18n="hero.badge">Ultimate Enterprise Edition</span>
+                    </div>
+                    
+                    <h1 class="hero-title">
+                        <span data-i18n="hero.title1">Financial Intelligence</span>
+                        <span class="gradient-text" data-i18n="hero.title2">Redefined</span>
+                    </h1>
+                    
+                    <p class="hero-subtitle" data-i18n="hero.subtitle">
+                        Advanced traceability platform for financial flows across Banking, PIX, and Blockchain using AI-powered Graph Theory and Real-time Risk Analysis
+                    </p>
+                    
+                    <div class="hero-stats">
+                        <div class="stat-item" data-animate="fade-up" data-delay="100">
+                            <div class="stat-number" data-count="99.99">0</div>
+                            <div class="stat-label" data-i18n="hero.stat1">% Uptime</div>
+                        </div>
+                        <div class="stat-item" data-animate="fade-up" data-delay="200">
+                            <div class="stat-number" data-count="30">0</div>
+                            <div class="stat-label" data-i18n="hero.stat2">ms Latency</div>
+                        </div>
+                        <div class="stat-item" data-animate="fade-up" data-delay="300">
+                            <div class="stat-number" data-count="50">0</div>
+                            <div class="stat-label" data-i18n="hero.stat3">K+ TPS</div>
+                        </div>
+                    </div>
+                    
+                    <div class="hero-actions" data-animate="fade-up" data-delay="400">
+                        <a href="#demo" class="btn-primary btn-lg">
+                            <i class="fas fa-rocket"></i>
+                            <span data-i18n="hero.tryDemo">Try Live Demo</span>
+                        </a>
+                        <a href="https://github.com/felipeofdev-ai/BridgeTrace-AI" class="btn-secondary btn-lg" target="_blank">
+                            <i class="fab fa-github"></i>
+                            <span data-i18n="hero.viewCode">View Code</span>
+                        </a>
+                    </div>
+                </div>
                 
-                <div class="hero-stats">
-                    <div class="stat-card">
-                        <div class="stat-number">99.9%</div>
-                        <div class="stat-label">Uptime SLA</div>
+                <div class="hero-visual" data-animate="fade-left">
+                    <div class="visual-container">
+                        <div id="heroGraph" class="graph-canvas"></div>
+                        <div class="visual-overlay">
+                            <div class="pulse-dot" style="top: 20%; left: 30%;"></div>
+                            <div class="pulse-dot" style="top: 60%; left: 70%;"></div>
+                            <div class="pulse-dot" style="top: 80%; left: 40%;"></div>
+                        </div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-number">&lt;50ms</div>
-                        <div class="stat-label">Latência Média</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">10K+</div>
-                        <div class="stat-label">Req/segundo</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">15+</div>
-                        <div class="stat-label">Integrações</div>
-                    </div>
-                </div>
-
-                <div class="hero-actions">
-                    <a href="#demo" class="btn-primary btn-large">
-                        <i class="fas fa-rocket"></i> Testar Demo ao Vivo
-                    </a>
-                    <a href="https://github.com/felipeofdev-ai/BridgeTrace-AI" class="btn-secondary btn-large" target="_blank">
-                        <i class="fab fa-github"></i> Ver Código Fonte
-                    </a>
-                </div>
-
-                <div class="tech-stack">
-                    <span class="tech-badge"><i class="fab fa-python"></i> Python 3.11</span>
-                    <span class="tech-badge"><i class="fas fa-bolt"></i> FastAPI</span>
-                    <span class="tech-badge"><i class="fas fa-database"></i> PostgreSQL 16</span>
-                    <span class="tech-badge"><i class="fas fa-memory"></i> Redis 7</span>
-                    <span class="tech-badge"><i class="fab fa-docker"></i> Docker</span>
-                    <span class="tech-badge"><i class="fas fa-dharmachakra"></i> Kubernetes</span>
-                    <span class="tech-badge"><i class="fas fa-chart-line"></i> Prometheus</span>
-                    <span class="tech-badge"><i class="fas fa-robot"></i> AI/ML</span>
                 </div>
             </div>
-
-            <div class="hero-visual">
-                <div id="heroGraph"></div>
+        </div>
+        
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
             </div>
         </div>
     </section>
 
     <!-- Features Section -->
-    <section id="features" class="section">
-        <div class="section-container">
-            <div class="section-header">
-                <h2>Funcionalidades Enterprise</h2>
-                <p>Construído para ambientes de produção com escalabilidade, segurança e observabilidade completa</p>
+    <section id="features" class="section features-section">
+        <div class="container">
+            <div class="section-header" data-animate="fade-up">
+                <div class="section-label" data-i18n="features.label">Capabilities</div>
+                <h2 class="section-title" data-i18n="features.title">Ultimate Enterprise Features</h2>
+                <p class="section-subtitle" data-i18n="features.subtitle">
+                    Production-ready platform built for scalability, security, and observability
+                </p>
             </div>
-
+            
             <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-                        <i class="fas fa-project-diagram"></i>
+                <div class="feature-card" data-animate="fade-up" data-delay="0">
+                    <div class="feature-icon gradient-1">
+                        <i class="fas fa-route"></i>
                     </div>
-                    <h3>Rastreamento Multi-Hop</h3>
-                    <p>Trace transações através de cadeias complexas com profundidade configurável e filtragem baseada em valores</p>
+                    <h3 data-i18n="features.f1.title">Multi-Hop Tracing</h3>
+                    <p data-i18n="features.f1.desc">Advanced pathfinding through complex transaction chains with configurable depth</p>
                     <ul class="feature-list">
-                        <li>Profundidade de 1-10 saltos</li>
-                        <li>Filtragem por valor mínimo</li>
-                        <li>Reconstrução completa de caminhos</li>
-                        <li>Score de risco por hop</li>
+                        <li data-i18n="features.f1.l1">1-10 hop depth</li>
+                        <li data-i18n="features.f1.l2">Value filtering</li>
+                        <li data-i18n="features.f1.l3">Risk scoring</li>
                     </ul>
                 </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                
+                <div class="feature-card" data-animate="fade-up" data-delay="100">
+                    <div class="feature-icon gradient-2">
                         <i class="fas fa-brain"></i>
                     </div>
-                    <h3>Análise de Risco com IA</h3>
-                    <p>Avaliação comportamental de risco usando machine learning e detecção de anomalias em tempo real</p>
+                    <h3 data-i18n="features.f2.title">AI Risk Analysis</h3>
+                    <p data-i18n="features.f2.desc">ML-powered behavioral assessment with real-time anomaly detection</p>
                     <ul class="feature-list">
-                        <li>Análise de padrões transacionais</li>
-                        <li>Detecção de anomalias de volume</li>
-                        <li>Correlação entre canais</li>
-                        <li>Tracking comportamental temporal</li>
+                        <li data-i18n="features.f2.l1">Pattern analysis</li>
+                        <li data-i18n="features.f2.l2">Anomaly detection</li>
+                        <li data-i18n="features.f2.l3">Predictive scoring</li>
                     </ul>
                 </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                
+                <div class="feature-card" data-animate="fade-up" data-delay="200">
+                    <div class="feature-icon gradient-3">
                         <i class="fas fa-network-wired"></i>
                     </div>
-                    <h3>Modelo de Grafo Unificado</h3>
-                    <p>Modelagem de entidades e transações financeiras através de múltiplos domínios integrados</p>
+                    <h3 data-i18n="features.f3.title">Unified Graph</h3>
+                    <p data-i18n="features.f3.desc">Comprehensive modeling across banking, PIX, and blockchain networks</p>
                     <ul class="feature-list">
-                        <li>Contas bancárias tradicionais</li>
-                        <li>Chaves PIX (instant payment)</li>
-                        <li>Wallets de criptomoedas</li>
-                        <li>Entidades legais (empresas/pessoas)</li>
+                        <li data-i18n="features.f3.l1">Multi-domain</li>
+                        <li data-i18n="features.f3.l2">Real-time sync</li>
+                        <li data-i18n="features.f3.l3">Cross-network</li>
                     </ul>
                 </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);">
-                        <i class="fas fa-file-contract"></i>
-                    </div>
-                    <h3>Relatórios de Compliance</h3>
-                    <p>Geração automática de narrativas em linguagem natural para auditoria e conformidade</p>
-                    <ul class="feature-list">
-                        <li>Geração de narrativas de transações</li>
-                        <li>Explicação de fatores de risco</li>
-                        <li>Engine de recomendações</li>
-                        <li>Documentação pronta para auditoria</li>
-                    </ul>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                
+                <div class="feature-card" data-animate="fade-up" data-delay="0">
+                    <div class="feature-icon gradient-4">
                         <i class="fas fa-shield-alt"></i>
                     </div>
-                    <h3>Segurança Enterprise</h3>
-                    <p>Implementação completa de segurança com autenticação JWT, criptografia e auditoria</p>
+                    <h3 data-i18n="features.f4.title">Enterprise Security</h3>
+                    <p data-i18n="features.f4.desc">JWT authentication, encryption, and complete audit logging</p>
                     <ul class="feature-list">
-                        <li>Autenticação JWT</li>
-                        <li>Hashing de senhas (bcrypt)</li>
-                        <li>Validação de entrada</li>
-                        <li>Logging de auditoria completo</li>
+                        <li data-i18n="features.f4.l1">JWT tokens</li>
+                        <li data-i18n="features.f4.l2">Bcrypt hashing</li>
+                        <li data-i18n="features.f4.l3">Audit logs</li>
                     </ul>
                 </div>
-
-                <div class="feature-card">
-                    <div class="feature-icon" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+                
+                <div class="feature-card" data-animate="fade-up" data-delay="100">
+                    <div class="feature-icon gradient-5">
                         <i class="fas fa-chart-line"></i>
                     </div>
-                    <h3>Observabilidade Completa</h3>
-                    <p>Monitoramento de produção com métricas Prometheus, dashboards Grafana e logging estruturado</p>
+                    <h3 data-i18n="features.f5.title">Full Observability</h3>
+                    <p data-i18n="features.f5.desc">Prometheus metrics, Grafana dashboards, structured logging</p>
                     <ul class="feature-list">
-                        <li>Métricas & alertas em tempo real</li>
-                        <li>Distributed tracing</li>
-                        <li>Agregação de logs estruturados</li>
-                        <li>Health check endpoints</li>
+                        <li data-i18n="features.f5.l1">Real-time metrics</li>
+                        <li data-i18n="features.f5.l2">Custom dashboards</li>
+                        <li data-i18n="features.f5.l3">Distributed tracing</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card" data-animate="fade-up" data-delay="200">
+                    <div class="feature-icon gradient-6">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3 data-i18n="features.f6.title">High Performance</h3>
+                    <p data-i18n="features.f6.desc">Async Python, Redis caching, optimized queries</p>
+                    <ul class="feature-list">
+                        <li data-i18n="features.f6.l1">Async/await</li>
+                        <li data-i18n="features.f6.l2">Redis cache</li>
+                        <li data-i18n="features.f6.l3">Query optimization</li>
                     </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Live Demo Section -->
+    <!-- Interactive Demo Section -->
     <section id="demo" class="section demo-section">
-        <div class="section-container">
-            <div class="section-header">
-                <h2>Demo ao Vivo - Sistema em Produção</h2>
-                <p>Teste todas as funcionalidades em tempo real com dados sintéticos</p>
+        <div class="container-fluid">
+            <div class="section-header" data-animate="fade-up">
+                <div class="section-label" data-i18n="demo.label">Live Platform</div>
+                <h2 class="section-title" data-i18n="demo.title">Interactive Demonstrations</h2>
+                <p class="section-subtitle" data-i18n="demo.subtitle">
+                    Experience all features in real-time with production-grade synthetic data
+                </p>
             </div>
-
-            <div class="demo-tabs">
-                <button class="demo-tab active" data-tab="trace">
-                    <i class="fas fa-route"></i> Rastreamento de Transações
-                </button>
-                <button class="demo-tab" data-tab="risk">
-                    <i class="fas fa-exclamation-triangle"></i> Análise de Risco
-                </button>
-                <button class="demo-tab" data-tab="graph">
-                    <i class="fas fa-project-diagram"></i> Visualização de Rede
-                </button>
-                <button class="demo-tab" data-tab="ai">
-                    <i class="fas fa-robot"></i> Explicações com IA
-                </button>
-            </div>
-
-            <!-- Trace Demo -->
-            <div id="trace-demo" class="demo-content active">
-                <div class="demo-panel">
-                    <h3><i class="fas fa-search"></i> Rastreamento Multi-Hop de Transações</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 2rem;">
-                        Rastreie o fluxo de fundos através de múltiplas transações e entidades. Configure a profundidade máxima de saltos e o valor mínimo para filtrar resultados.
-                    </p>
-
-                    <div class="demo-controls">
-                        <div class="control-group">
-                            <label><i class="fas fa-user"></i> ID da Entidade Origem</label>
-                            <input type="text" id="sourceId" value="bank_001" placeholder="Ex: bank_001, pix_12345">
-                        </div>
-                        <div class="control-group">
-                            <label><i class="fas fa-layer-group"></i> Máximo de Saltos</label>
-                            <select id="maxHops">
-                                <option value="3">3 saltos</option>
-                                <option value="5" selected>5 saltos</option>
-                                <option value="7">7 saltos</option>
-                                <option value="10">10 saltos</option>
-                            </select>
-                        </div>
-                        <div class="control-group">
-                            <label><i class="fas fa-dollar-sign"></i> Valor Mínimo (R$)</label>
-                            <input type="number" id="minAmount" value="1000" placeholder="1000.00">
-                        </div>
-                        <div class="control-group" style="display: flex; align-items: flex-end;">
-                            <button class="btn-primary" onclick="executeTrace()" style="width: 100%;">
-                                <i class="fas fa-play"></i> Executar Rastreamento
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="metrics-grid">
-                        <div class="metric-card">
-                            <div class="metric-value" id="totalNodes">0</div>
-                            <div class="metric-label">Nós Encontrados</div>
-                        </div>
-                        <div class="metric-card">
-                            <div class="metric-value" id="totalPaths">0</div>
-                            <div class="metric-label">Caminhos Únicos</div>
-                        </div>
-                        <div class="metric-card">
-                            <div class="metric-value" id="avgRisk">0.0</div>
-                            <div class="metric-label">Risco Médio</div>
-                        </div>
-                        <div class="metric-card">
-                            <div class="metric-value" id="totalAmount">R$ 0</div>
-                            <div class="metric-label">Volume Total</div>
-                        </div>
-                    </div>
-
-                    <div class="demo-output">
-                        <div id="traceGraph"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Risk Demo -->
-            <div id="risk-demo" class="demo-content">
-                <div class="demo-panel">
-                    <h3><i class="fas fa-shield-alt"></i> Análise de Risco Comportamental</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 2rem;">
-                        Avalie o perfil de risco de uma entidade baseado em padrões de transação, volume e comportamento temporal.
-                    </p>
-
-                    <div class="demo-controls">
-                        <div class="control-group">
-                            <label><i class="fas fa-user-shield"></i> ID da Entidade</label>
-                            <input type="text" id="riskEntityId" value="entity_001">
-                        </div>
-                        <div class="control-group">
-                            <label><i class="fas fa-calendar-alt"></i> Período de Análise</label>
-                            <select id="timeRange">
-                                <option value="7">Últimos 7 dias</option>
-                                <option value="30" selected>Últimos 30 dias</option>
-                                <option value="90">Últimos 90 dias</option>
-                            </select>
-                        </div>
-                        <div class="control-group" style="display: flex; align-items: flex-end;">
-                            <button class="btn-primary" onclick="analyzeRisk()" style="width: 100%;">
-                                <i class="fas fa-search"></i> Analisar Risco
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="demo-output">
-                        <canvas id="riskChart"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Graph Visualization Demo -->
-            <div id="graph-demo" class="demo-content">
-                <div class="demo-panel">
-                    <h3><i class="fas fa-sitemap"></i> Visualização de Rede Interativa</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 2rem;">
-                        Explore a rede de transações de forma interativa. Arraste os nós, aplique zoom e clique para ver detalhes.
-                    </p>
-                    <div class="demo-output">
-                        <div id="networkGraph" style="height: 600px; background: rgba(15, 23, 42, 0.8); border: 1px solid var(--border); border-radius: 0.5rem;"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- AI Explanations Demo -->
-            <div id="ai-demo" class="demo-content">
-                <div class="demo-panel">
-                    <h3><i class="fas fa-brain"></i> Explicações Geradas por IA</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 2rem;">
-                        Gere relatórios em linguagem natural sobre transações e riscos para conformidade e auditoria.
-                    </p>
-                    
-                    <button class="btn-primary" onclick="generateAIReport()" style="margin-bottom: 2rem;">
-                        <i class="fas fa-file-alt"></i> Gerar Relatório de Compliance
+            
+            <div class="demo-container">
+                <div class="demo-tabs">
+                    <button class="demo-tab active" data-tab="trace" onclick="switchDemoTab('trace')">
+                        <i class="fas fa-route"></i>
+                        <span data-i18n="demo.tab1">Transaction Tracing</span>
                     </button>
-
-                    <div class="demo-output">
-                        <div id="aiOutput" style="background: rgba(15, 23, 42, 0.8); border: 1px solid var(--border); border-radius: 0.5rem; padding: 2rem; min-height: 400px;">
-                            <p style="color: var(--text-muted); text-align: center;">Clique no botão acima para gerar um relatório</p>
+                    <button class="demo-tab" data-tab="risk" onclick="switchDemoTab('risk')">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span data-i18n="demo.tab2">Risk Analysis</span>
+                    </button>
+                    <button class="demo-tab" data-tab="graph" onclick="switchDemoTab('graph')">
+                        <i class="fas fa-project-diagram"></i>
+                        <span data-i18n="demo.tab3">Network Graph</span>
+                    </button>
+                    <button class="demo-tab" data-tab="ai" onclick="switchDemoTab('ai')">
+                        <i class="fas fa-robot"></i>
+                        <span data-i18n="demo.tab4">AI Reports</span>
+                    </button>
+                </div>
+                
+                <!-- Trace Demo -->
+                <div id="demo-trace" class="demo-panel active">
+                    <div class="demo-split">
+                        <div class="demo-controls">
+                            <h3 data-i18n="demo.trace.title">Configure Trace</h3>
+                            
+                            <div class="control-group">
+                                <label data-i18n="demo.trace.source">Source Entity</label>
+                                <input type="text" id="traceSource" value="bank_001" class="input-field">
+                            </div>
+                            
+                            <div class="control-group">
+                                <label data-i18n="demo.trace.hops">Maximum Hops</label>
+                                <div class="slider-container">
+                                    <input type="range" id="traceHops" min="1" max="10" value="5" class="slider">
+                                    <span class="slider-value">5</span>
+                                </div>
+                            </div>
+                            
+                            <div class="control-group">
+                                <label data-i18n="demo.trace.amount">Minimum Amount ($)</label>
+                                <input type="number" id="traceAmount" value="1000" class="input-field">
+                            </div>
+                            
+                            <button class="btn-primary btn-lg btn-block" onclick="executeTrace()">
+                                <i class="fas fa-play"></i>
+                                <span data-i18n="demo.trace.execute">Execute Trace</span>
+                            </button>
+                            
+                            <div class="metrics-mini">
+                                <div class="metric-mini">
+                                    <div class="metric-value" id="traceNodes">0</div>
+                                    <div class="metric-label" data-i18n="demo.trace.nodes">Nodes</div>
+                                </div>
+                                <div class="metric-mini">
+                                    <div class="metric-value" id="tracePaths">0</div>
+                                    <div class="metric-label" data-i18n="demo.trace.paths">Paths</div>
+                                </div>
+                                <div class="metric-mini">
+                                    <div class="metric-value" id="traceRisk">0.0</div>
+                                    <div class="metric-label" data-i18n="demo.trace.risk">Risk</div>
+                                </div>
+                            </div>
                         </div>
+                        
+                        <div class="demo-output">
+                            <div id="traceGraph" class="graph-output"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Risk Demo -->
+                <div id="demo-risk" class="demo-panel">
+                    <div class="demo-split">
+                        <div class="demo-controls">
+                            <h3 data-i18n="demo.risk.title">Risk Assessment</h3>
+                            
+                            <div class="control-group">
+                                <label data-i18n="demo.risk.entity">Entity ID</label>
+                                <input type="text" id="riskEntity" value="entity_001" class="input-field">
+                            </div>
+                            
+                            <div class="control-group">
+                                <label data-i18n="demo.risk.period">Analysis Period</label>
+                                <select id="riskPeriod" class="input-field">
+                                    <option value="7" data-i18n-option="demo.risk.days7">Last 7 days</option>
+                                    <option value="30" selected data-i18n-option="demo.risk.days30">Last 30 days</option>
+                                    <option value="90" data-i18n-option="demo.risk.days90">Last 90 days</option>
+                                </select>
+                            </div>
+                            
+                            <button class="btn-primary btn-lg btn-block" onclick="executeRiskAnalysis()">
+                                <i class="fas fa-search"></i>
+                                <span data-i18n="demo.risk.analyze">Analyze Risk</span>
+                            </button>
+                        </div>
+                        
+                        <div class="demo-output">
+                            <canvas id="riskChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Graph Demo -->
+                <div id="demo-graph" class="demo-panel">
+                    <div class="demo-full">
+                        <div id="networkGraph" class="graph-output-full"></div>
+                        <div class="graph-controls">
+                            <button class="btn-icon" onclick="resetGraphView()" title="Reset View">
+                                <i class="fas fa-compress"></i>
+                            </button>
+                            <button class="btn-icon" onclick="togglePhysics()" title="Toggle Physics">
+                                <i class="fas fa-atom"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- AI Demo -->
+                <div id="demo-ai" class="demo-panel">
+                    <div class="demo-full">
+                        <div class="ai-controls">
+                            <button class="btn-primary btn-lg" onclick="generateAIReport()">
+                                <i class="fas fa-file-alt"></i>
+                                <span data-i18n="demo.ai.generate">Generate Compliance Report</span>
+                            </button>
+                        </div>
+                        <div id="aiOutput" class="ai-output"></div>
                     </div>
                 </div>
             </div>
@@ -1150,155 +394,68 @@
     </section>
 
     <!-- Architecture Section -->
-    <section id="architecture" class="section">
-        <div class="section-container">
-            <div class="section-header">
-                <h2>Arquitetura Enterprise</h2>
-                <p>Clean Architecture com separação de camadas e padrões de design modernos</p>
+    <section id="architecture" class="section arch-section">
+        <div class="container">
+            <div class="section-header" data-animate="fade-up">
+                <div class="section-label" data-i18n="arch.label">System Design</div>
+                <h2 class="section-title" data-i18n="arch.title">Enterprise Architecture</h2>
+                <p class="section-subtitle" data-i18n="arch.subtitle">
+                    Clean architecture with clear layer separation following industry best practices
+                </p>
             </div>
-
-            <div class="arch-diagram">
+            
+            <div class="arch-diagram" data-animate="fade-up">
                 <div class="arch-layer">
-                    <div class="layer-title"><i class="fas fa-globe"></i> Presentation Layer</div>
-                    <div class="layer-content">
-                        <div class="arch-component">FastAPI Routes</div>
-                        <div class="arch-component">OpenAPI/Swagger</div>
-                        <div class="arch-component">Request Validation</div>
+                    <div class="layer-header">
+                        <i class="fas fa-globe"></i>
+                        <span data-i18n="arch.layer1">Presentation Layer</span>
+                    </div>
+                    <div class="layer-components">
+                        <span class="component">FastAPI</span>
+                        <span class="component">OpenAPI</span>
+                        <span class="component">Validation</span>
                     </div>
                 </div>
-
-                <div class="arch-arrow">↓</div>
-
+                
+                <div class="arch-arrow"><i class="fas fa-chevron-down"></i></div>
+                
                 <div class="arch-layer">
-                    <div class="layer-title"><i class="fas fa-cogs"></i> Application Layer</div>
-                    <div class="layer-content">
-                        <div class="arch-component">Trace Service</div>
-                        <div class="arch-component">Risk Service</div>
-                        <div class="arch-component">AI Service</div>
+                    <div class="layer-header">
+                        <i class="fas fa-cogs"></i>
+                        <span data-i18n="arch.layer2">Application Layer</span>
+                    </div>
+                    <div class="layer-components">
+                        <span class="component">Trace Service</span>
+                        <span class="component">Risk Service</span>
+                        <span class="component">AI Service</span>
                     </div>
                 </div>
-
-                <div class="arch-arrow">↓</div>
-
+                
+                <div class="arch-arrow"><i class="fas fa-chevron-down"></i></div>
+                
                 <div class="arch-layer">
-                    <div class="layer-title"><i class="fas fa-cube"></i> Domain Layer</div>
-                    <div class="layer-content">
-                        <div class="arch-component">Business Logic</div>
-                        <div class="arch-component">Graph Algorithms</div>
-                        <div class="arch-component">Validators</div>
+                    <div class="layer-header">
+                        <i class="fas fa-cube"></i>
+                        <span data-i18n="arch.layer3">Domain Layer</span>
+                    </div>
+                    <div class="layer-components">
+                        <span class="component">Business Logic</span>
+                        <span class="component">Graph Algorithms</span>
+                        <span class="component">Validators</span>
                     </div>
                 </div>
-
-                <div class="arch-arrow">↓</div>
-
+                
+                <div class="arch-arrow"><i class="fas fa-chevron-down"></i></div>
+                
                 <div class="arch-layer">
-                    <div class="layer-title"><i class="fas fa-database"></i> Infrastructure Layer</div>
-                    <div class="layer-content">
-                        <div class="arch-component">PostgreSQL</div>
-                        <div class="arch-component">Redis Cache</div>
-                        <div class="arch-component">Prometheus</div>
+                    <div class="layer-header">
+                        <i class="fas fa-database"></i>
+                        <span data-i18n="arch.layer4">Infrastructure Layer</span>
                     </div>
-                </div>
-            </div>
-
-            <div class="code-block">
-                <div class="code-header">
-                    <span class="code-language"><i class="fab fa-python"></i> Python - Exemplo de API</span>
-                    <button class="copy-btn" onclick="copyCode()"><i class="fas fa-copy"></i> Copiar</button>
-                </div>
-                <pre><code>from fastapi import APIRouter, Depends
-from app.services.trace_service import TraceService
-from app.schemas.trace import TraceRequest, TraceResponse
-
-router = APIRouter(prefix="/api/v2/trace", tags=["tracing"])
-
-@router.post("/", response_model=TraceResponse)
-async def trace_transaction(
-    request: TraceRequest,
-    service: TraceService = Depends()
-):
-    """
-    Rastreia transações através de múltiplos saltos
-    
-    - **source_id**: ID da entidade origem
-    - **max_hops**: Profundidade máxima de busca (1-10)
-    - **min_amount**: Valor mínimo para filtrar transações
-    """
-    return await service.trace(
-        source_id=request.source_id,
-        max_hops=request.max_hops,
-        min_amount=request.min_amount
-    )</code></pre>
-            </div>
-        </div>
-    </section>
-
-    <!-- System Status Section -->
-    <section id="status" class="section" style="background: rgba(30, 41, 59, 0.3);">
-        <div class="section-container">
-            <div class="section-header">
-                <h2>Status do Sistema em Tempo Real</h2>
-                <p>Todos os serviços operacionais e monitorados 24/7</p>
-            </div>
-
-            <div class="status-grid">
-                <div class="status-card">
-                    <div class="status-icon online">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <div class="status-info">
-                        <h4>API Gateway</h4>
-                        <p>Operational • 99.99% uptime</p>
-                    </div>
-                </div>
-
-                <div class="status-card">
-                    <div class="status-icon online">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <div class="status-info">
-                        <h4>PostgreSQL Database</h4>
-                        <p>Operational • 50ms avg latency</p>
-                    </div>
-                </div>
-
-                <div class="status-card">
-                    <div class="status-icon online">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <div class="status-info">
-                        <h4>Redis Cache</h4>
-                        <p>Operational • 2ms avg latency</p>
-                    </div>
-                </div>
-
-                <div class="status-card">
-                    <div class="status-icon online">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <div class="status-info">
-                        <h4>Prometheus Metrics</h4>
-                        <p>Operational • Real-time monitoring</p>
-                    </div>
-                </div>
-
-                <div class="status-card">
-                    <div class="status-icon online">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <div class="status-info">
-                        <h4>Grafana Dashboards</h4>
-                        <p>Operational • 15+ dashboards</p>
-                    </div>
-                </div>
-
-                <div class="status-card">
-                    <div class="status-icon building">
-                        <i class="fas fa-wrench"></i>
-                    </div>
-                    <div class="status-info">
-                        <h4>ML Model Training</h4>
-                        <p>In Progress • Scheduled maintenance</p>
+                    <div class="layer-components">
+                        <span class="component">PostgreSQL</span>
+                        <span class="component">Redis</span>
+                        <span class="component">Prometheus</span>
                     </div>
                 </div>
             </div>
@@ -1307,327 +464,52 @@ async def trace_transaction(
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-grid">
-                <div class="footer-section">
-                    <h3><i class="fas fa-project-diagram"></i> BridgeTrace AI</h3>
-                    <p>Plataforma Enterprise de Rastreabilidade Financeira com IA, Graph Theory e análise de risco em tempo real.</p>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>BridgeTrace AI</h3>
+                    <p data-i18n="footer.tagline">Ultimate Enterprise Financial Intelligence Platform</p>
                     <div class="social-links">
-                        <a href="https://github.com/felipeofdev-ai" class="social-link" target="_blank">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="https://linkedin.com/in/felipe-fernandes" class="social-link" target="_blank">
-                            <i class="fab fa-linkedin"></i>
-                        </a>
-                        <a href="mailto:felipe@bridgetrace.ai" class="social-link">
-                            <i class="fas fa-envelope"></i>
-                        </a>
+                        <a href="https://github.com/felipeofdev-ai" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="https://linkedin.com/in/felipe-fernandes" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="mailto:felipe@bridgetrace.ai"><i class="fas fa-envelope"></i></a>
                     </div>
                 </div>
-
-                <div class="footer-section">
-                    <h3>Recursos</h3>
-                    <ul class="footer-links">
-                        <li><a href="https://github.com/felipeofdev-ai/BridgeTrace-AI">Documentação</a></li>
-                        <li><a href="http://localhost:8000/api/v2/docs">API Reference</a></li>
-                        <li><a href="https://github.com/felipeofdev-ai/BridgeTrace-AI/releases">Changelog</a></li>
-                        <li><a href="#demo">Demo ao Vivo</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-section">
-                    <h3>Tecnologia</h3>
-                    <ul class="footer-links">
-                        <li>Python 3.11 + FastAPI</li>
-                        <li>PostgreSQL 16</li>
-                        <li>Redis 7</li>
-                        <li>Docker & Kubernetes</li>
-                    </ul>
-                </div>
-
-                <div class="footer-section">
-                    <h3>Links Rápidos</h3>
-                    <ul class="footer-links">
-                        <li><a href="#features">Funcionalidades</a></li>
-                        <li><a href="#architecture">Arquitetura</a></li>
-                        <li><a href="#status">Status</a></li>
-                        <li><a href="https://github.com/felipeofdev-ai/BridgeTrace-AI">GitHub</a></li>
-                    </ul>
+                
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4 data-i18n="footer.resources">Resources</h4>
+                        <a href="#" data-i18n="footer.docs">Documentation</a>
+                        <a href="#" data-i18n="footer.api">API Reference</a>
+                        <a href="#" data-i18n="footer.guide">Deployment Guide</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4 data-i18n="footer.product">Product</h4>
+                        <a href="#features" data-i18n="footer.features">Features</a>
+                        <a href="#demo" data-i18n="footer.demo">Live Demo</a>
+                        <a href="#architecture" data-i18n="footer.arch">Architecture</a>
+                    </div>
                 </div>
             </div>
-
+            
             <div class="footer-bottom">
-                <p>&copy; 2026 BridgeTrace AI. Desenvolvido com ❤️ por <a href="https://github.com/felipeofdev-ai" style="color: var(--primary);">Felipe de Oliveira Fernandes</a></p>
-                <p style="margin-top: 0.5rem; font-size: 0.85rem;">Para fins educacionais e de demonstração. Utiliza 100% dados sintéticos.</p>
+                <p>&copy; 2026 BridgeTrace AI. <span data-i18n="footer.rights">All rights reserved</span>.</p>
+                <p data-i18n="footer.disclaimer">Educational project using 100% synthetic data</p>
             </div>
         </div>
     </footer>
 
     <!-- Loading Overlay -->
     <div id="loadingOverlay" class="loading-overlay">
-        <div class="spinner"></div>
-        <p>Processando...</p>
+        <div class="loader">
+            <div class="loader-ring"></div>
+            <div class="loader-ring"></div>
+            <div class="loader-ring"></div>
+        </div>
+        <p class="loading-text" data-i18n="loading">Processing...</p>
     </div>
 
-    <script>
-        // Demo Tabs
-        document.querySelectorAll('.demo-tab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                const tabName = tab.dataset.tab;
-                
-                document.querySelectorAll('.demo-tab').forEach(t => t.classList.remove('active'));
-                document.querySelectorAll('.demo-content').forEach(c => c.classList.remove('active'));
-                
-                tab.classList.add('active');
-                document.getElementById(`${tabName}-demo`).classList.add('active');
-            });
-        });
-
-        // Initialize Hero Graph
-        function initHeroGraph() {
-            const container = document.getElementById('heroGraph');
-            const nodes = new vis.DataSet([
-                { id: 1, label: 'Bank A', color: '#6366f1', shape: 'circle' },
-                { id: 2, label: 'PIX', color: '#06b6d4', shape: 'diamond' },
-                { id: 3, label: 'Bank B', color: '#10b981', shape: 'circle' },
-                { id: 4, label: 'Crypto', color: '#f59e0b', shape: 'star' },
-                { id: 5, label: 'Entity', color: '#ef4444', shape: 'square' }
-            ]);
-
-            const edges = new vis.DataSet([
-                { from: 1, to: 2, arrows: 'to', label: 'R$ 5K' },
-                { from: 2, to: 3, arrows: 'to', label: 'R$ 3K' },
-                { from: 3, to: 4, arrows: 'to', label: 'R$ 2K' },
-                { from: 4, to: 5, arrows: 'to', label: 'R$ 1.5K' }
-            ]);
-
-            const data = { nodes, edges };
-            const options = {
-                nodes: {
-                    font: { color: '#f1f5f9' },
-                    borderWidth: 2
-                },
-                edges: {
-                    font: { color: '#94a3b8', size: 12 },
-                    width: 2,
-                    color: { color: '#6366f1' }
-                },
-                physics: {
-                    enabled: true,
-                    stabilization: { iterations: 100 }
-                }
-            };
-
-            new vis.Network(container, data, options);
-        }
-
-        // Execute Trace
-        function executeTrace() {
-            const overlay = document.getElementById('loadingOverlay');
-            overlay.classList.add('show');
-
-            setTimeout(() => {
-                const sourceId = document.getElementById('sourceId').value;
-                const maxHops = document.getElementById('maxHops').value;
-                const minAmount = document.getElementById('minAmount').value;
-
-                // Simulate API call
-                document.getElementById('totalNodes').textContent = Math.floor(Math.random() * 50) + 10;
-                document.getElementById('totalPaths').textContent = Math.floor(Math.random() * 20) + 5;
-                document.getElementById('avgRisk').textContent = (Math.random() * 0.7 + 0.3).toFixed(2);
-                document.getElementById('totalAmount').textContent = 'R$ ' + (Math.random() * 500000 + 50000).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,');
-
-                // Create trace graph
-                createTraceGraph();
-
-                overlay.classList.remove('show');
-            }, 1500);
-        }
-
-        // Create Trace Graph
-        function createTraceGraph() {
-            const container = document.getElementById('traceGraph');
-            const nodes = new vis.DataSet([
-                { id: 1, label: 'Source\nbank_001', color: '#6366f1', level: 0 },
-                { id: 2, label: 'PIX_123', color: '#06b6d4', level: 1 },
-                { id: 3, label: 'Bank_002', color: '#10b981', level: 1 },
-                { id: 4, label: 'Crypto_A', color: '#f59e0b', level: 2 },
-                { id: 5, label: 'Entity_X', color: '#ef4444', level: 2 },
-                { id: 6, label: 'Bank_003', color: '#8b5cf6', level: 3 }
-            ]);
-
-            const edges = new vis.DataSet([
-                { from: 1, to: 2, arrows: 'to', label: 'R$ 15K', color: { color: '#6366f1' } },
-                { from: 1, to: 3, arrows: 'to', label: 'R$ 8K', color: { color: '#6366f1' } },
-                { from: 2, to: 4, arrows: 'to', label: 'R$ 12K', color: { color: '#06b6d4' } },
-                { from: 3, to: 5, arrows: 'to', label: 'R$ 5K', color: { color: '#10b981' } },
-                { from: 4, to: 6, arrows: 'to', label: 'R$ 10K', color: { color: '#f59e0b' } }
-            ]);
-
-            const data = { nodes, edges };
-            const options = {
-                layout: {
-                    hierarchical: {
-                        direction: 'LR',
-                        sortMethod: 'directed',
-                        levelSeparation: 200
-                    }
-                },
-                nodes: {
-                    font: { color: '#f1f5f9', size: 14 },
-                    borderWidth: 3,
-                    shape: 'box'
-                },
-                edges: {
-                    font: { color: '#94a3b8', size: 12 },
-                    width: 3,
-                    smooth: { type: 'cubicBezier' }
-                },
-                physics: { enabled: false }
-            };
-
-            new vis.Network(container, data, options);
-        }
-
-        // Analyze Risk
-        function analyzeRisk() {
-            const overlay = document.getElementById('loadingOverlay');
-            overlay.classList.add('show');
-
-            setTimeout(() => {
-                createRiskChart();
-                overlay.classList.remove('show');
-            }, 1500);
-        }
-
-        // Create Risk Chart
-        function createRiskChart() {
-            const ctx = document.getElementById('riskChart').getContext('2d');
-            
-            new Chart(ctx, {
-                type: 'radar',
-                data: {
-                    labels: ['Volume', 'Frequência', 'Anomalias', 'Diversidade', 'Temporal', 'Padrões'],
-                    datasets: [{
-                        label: 'Score de Risco',
-                        data: [65, 75, 45, 80, 55, 70],
-                        backgroundColor: 'rgba(99, 102, 241, 0.2)',
-                        borderColor: '#6366f1',
-                        borderWidth: 2,
-                        pointBackgroundColor: '#6366f1',
-                        pointBorderColor: '#fff',
-                        pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: '#6366f1'
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: true,
-                    scales: {
-                        r: {
-                            beginAtZero: true,
-                            max: 100,
-                            ticks: { color: '#94a3b8' },
-                            grid: { color: '#334155' },
-                            pointLabels: { color: '#f1f5f9', font: { size: 14 } }
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            labels: { color: '#f1f5f9', font: { size: 14 } }
-                        }
-                    }
-                }
-            });
-        }
-
-        // Generate AI Report
-        function generateAIReport() {
-            const overlay = document.getElementById('loadingOverlay');
-            const output = document.getElementById('aiOutput');
-            overlay.classList.add('show');
-
-            setTimeout(() => {
-                output.innerHTML = `
-                    <h3 style="color: var(--primary); margin-bottom: 1.5rem;">
-                        <i class="fas fa-file-contract"></i> Relatório de Compliance - Análise de Transação
-                    </h3>
-                    
-                    <div style="background: rgba(99, 102, 241, 0.1); border-left: 4px solid var(--primary); padding: 1.5rem; margin-bottom: 1.5rem; border-radius: 0.5rem;">
-                        <h4 style="margin-bottom: 0.75rem;"><i class="fas fa-info-circle"></i> Resumo Executivo</h4>
-                        <p style="color: var(--text-muted); line-height: 1.8;">
-                            A análise identificou uma cadeia de transações originada em <strong>bank_001</strong> com propagação 
-                            através de 5 entidades distintas. O volume total movimentado foi de <strong>R$ 342.500,00</strong> 
-                            em um período de 7 dias.
-                        </p>
-                    </div>
-
-                    <div style="margin-bottom: 1.5rem;">
-                        <h4 style="margin-bottom: 1rem;"><i class="fas fa-exclamation-triangle" style="color: var(--warning);"></i> Fatores de Risco Identificados</h4>
-                        <ul style="list-style: none; padding: 0;">
-                            <li style="padding: 0.75rem; background: rgba(245, 158, 11, 0.1); border-left: 3px solid var(--warning); margin-bottom: 0.5rem; border-radius: 0.25rem;">
-                                <strong>Alto Volume:</strong> Transação de R$ 150.000 excede 300% da média histórica
-                            </li>
-                            <li style="padding: 0.75rem; background: rgba(245, 158, 11, 0.1); border-left: 3px solid var(--warning); margin-bottom: 0.5rem; border-radius: 0.25rem;">
-                                <strong>Diversidade de Canais:</strong> Uso simultâneo de PIX, transferência bancária e crypto
-                            </li>
-                            <li style="padding: 0.75rem; background: rgba(239, 68, 68, 0.1); border-left: 3px solid var(--danger); margin-bottom: 0.5rem; border-radius: 0.25rem;">
-                                <strong>Padrão Atípico:</strong> 3 transações em horários incomuns (madrugada)
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div style="margin-bottom: 1.5rem;">
-                        <h4 style="margin-bottom: 1rem;"><i class="fas fa-lightbulb" style="color: var(--success);"></i> Recomendações</h4>
-                        <ol style="color: var(--text-muted); line-height: 2;">
-                            <li>Solicitar documentação adicional para transações acima de R$ 100.000</li>
-                            <li>Verificar a identidade de todas as entidades envolvidas na cadeia</li>
-                            <li>Monitorar atividades futuras da entidade origem por 90 dias</li>
-                            <li>Reportar à equipe de compliance para análise detalhada</li>
-                        </ol>
-                    </div>
-
-                    <div style="background: rgba(16, 185, 129, 0.1); border-left: 4px solid var(--success); padding: 1.5rem; border-radius: 0.5rem;">
-                        <h4 style="margin-bottom: 0.75rem;"><i class="fas fa-check-circle"></i> Status</h4>
-                        <p style="color: var(--text-muted);">
-                            Relatório gerado automaticamente em ${new Date().toLocaleString('pt-BR')}. 
-                            Classificação: <strong style="color: var(--warning);">MÉDIA ATENÇÃO</strong>
-                        </p>
-                    </div>
-                `;
-                overlay.classList.remove('show');
-            }, 2000);
-        }
-
-        // Copy Code
-        function copyCode() {
-            const code = document.querySelector('.code-block pre code').textContent;
-            navigator.clipboard.writeText(code);
-            
-            const btn = document.querySelector('.copy-btn');
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i class="fas fa-check"></i> Copiado!';
-            setTimeout(() => {
-                btn.innerHTML = originalText;
-            }, 2000);
-        }
-
-        // Initialize on load
-        window.addEventListener('load', () => {
-            initHeroGraph();
-            createTraceGraph();
-        });
-
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
-    </script>
+    <!-- Scripts -->
+    <script src="app.js"></script>
 </body>
 </html>
