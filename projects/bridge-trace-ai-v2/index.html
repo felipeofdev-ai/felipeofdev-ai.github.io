@@ -1,158 +1,543 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>BridgeTrace AI — Ultimate Enterprise Edition</title>
-
-    <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BridgeTrace AI Ultimate | Financial Intelligence Platform</title>
+    <meta name="description" content="Enterprise-grade financial traceability platform with AI-powered risk analysis">
+    
+    <!-- Fonts - Distinctive choices -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
     <!-- Vis.js -->
-    <script src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
-
-    <!-- GSAP -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js"></script>
+    
+    <!-- GSAP for advanced animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-
-    <!-- Styles -->
-    <link rel="stylesheet" href="style.css">
+    
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-
-<!-- =====================
- Language Modal
-===================== -->
-<div id="langModal" class="lang-modal">
-    <div class="lang-card">
-        <h2 data-i18n="selectLanguage">Select Your Language</h2>
-        <button onclick="localStorage.setItem('bridgetrace-lang','en');location.reload()">English</button>
-        <button onclick="localStorage.setItem('bridgetrace-lang','pt');location.reload()">Português</button>
-    </div>
-</div>
-
-<!-- =====================
- Navigation
-===================== -->
-<nav class="navbar">
-    <div class="container">
-        <div class="logo">BridgeTrace<span>AI</span></div>
-        <ul class="nav-links">
-            <li><a href="#features" data-i18n="nav.features">Features</a></li>
-            <li><a href="#demo" data-i18n="nav.demo">Demo</a></li>
-            <li><a href="#architecture" data-i18n="nav.architecture">Architecture</a></li>
-            <li><a href="https://github.com/felipeofdev-ai" target="_blank" data-i18n="nav.github">GitHub</a></li>
-        </ul>
-    </div>
-</nav>
-
-<!-- =====================
- Hero
-===================== -->
-<header class="hero">
-    <div class="hero-content">
-        <span class="badge" data-i18n="hero.badge">Ultimate Enterprise Edition</span>
-        <h1>
-            <span data-i18n="hero.title1">Financial Intelligence</span><br>
-            <span class="gradient" data-i18n="hero.title2">Redefined</span>
-        </h1>
-        <p data-i18n="hero.subtitle"></p>
-
-        <div class="hero-stats">
-            <div><strong>99.99</strong><span data-i18n="hero.stat1">% Uptime</span></div>
-            <div><strong>12</strong><span data-i18n="hero.stat2">ms Latency</span></div>
-            <div><strong>120K+</strong><span data-i18n="hero.stat3">TPS</span></div>
-        </div>
-
-        <div class="hero-actions">
-            <a href="#demo" class="btn-primary" data-i18n="hero.tryDemo">Try Live Demo</a>
-            <a href="https://github.com/felipeofdev-ai" target="_blank" class="btn-secondary" data-i18n="hero.viewCode">View Source Code</a>
+    <!-- Language Selector Modal -->
+    <div id="langModal" class="lang-modal">
+        <div class="lang-modal-content">
+            <h2 data-i18n="selectLanguage">Select Your Language</h2>
+            <div class="lang-options">
+                <button class="lang-option" onclick="setLanguage('en')">
+                    <span class="lang-flag">🇺🇸</span>
+                    <span class="lang-name">English</span>
+                </button>
+                <button class="lang-option" onclick="setLanguage('pt')">
+                    <span class="lang-flag">🇧🇷</span>
+                    <span class="lang-name">Português</span>
+                </button>
+            </div>
         </div>
     </div>
 
-    <div id="heroGraph" class="hero-graph"></div>
-</header>
-
-<!-- =====================
- Demo Section
-===================== -->
-<section id="demo" class="demo-section">
-    <h2 data-animate data-i18n="nav.demo">Demo</h2>
-
-    <div class="demo-tabs">
-        <button class="tab active">Transaction Trace</button>
-        <button class="tab">Risk Analysis</button>
-        <button class="tab">Network Graph</button>
-        <button class="tab">AI Reports</button>
-    </div>
-
-    <!-- =====================
-     Transaction Trace
-    ===================== -->
-    <div class="demo-content active">
-
-        <!-- 🔥 FORM CORRIGIDO -->
-        <form id="traceForm" class="demo-controls">
-
-            <h3>Configure Trace</h3>
-
-            <div class="control-group">
-                <label>Source Entity</label>
-                <input type="text" id="traceSource" value="bank_001" class="input-field">
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#hero" class="nav-brand">
+                <div class="brand-icon">
+                    <i class="fas fa-project-diagram"></i>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-name">BridgeTrace</span>
+                    <span class="brand-suffix">AI</span>
+                </div>
+                <span class="version-badge">v2.0</span>
+            </a>
+            
+            <div class="nav-links">
+                <a href="#features" class="nav-link" data-i18n="nav.features">Features</a>
+                <a href="#demo" class="nav-link" data-i18n="nav.demo">Demo</a>
+                <a href="#architecture" class="nav-link" data-i18n="nav.architecture">Architecture</a>
+                <a href="https://github.com/felipeofdev-ai/BridgeTrace-AI" class="btn-primary btn-sm" target="_blank">
+                    <i class="fab fa-github"></i>
+                    <span data-i18n="nav.github">GitHub</span>
+                </a>
+                <button class="lang-toggle" onclick="toggleLanguage()">
+                    <i class="fas fa-globe"></i>
+                    <span id="currentLang">EN</span>
+                </button>
             </div>
-
-            <div class="control-group">
-                <label>Depth</label>
-                <input type="number" value="3" class="input-field">
-            </div>
-
-            <button type="submit" class="btn-primary btn-lg btn-block">
-                <i class="fas fa-play"></i>
-                <span data-i18n="demo.trace.execute">Execute Trace</span>
+            
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
             </button>
+        </div>
+    </nav>
 
-        </form>
-
-        <div class="demo-results">
-            <div class="stat-card">
-                <span data-i18n="demo.trace.nodes">Nodes</span>
-                <strong id="traceNodes">0</strong>
-            </div>
-            <div class="stat-card">
-                <span data-i18n="demo.trace.paths">Paths</span>
-                <strong id="tracePaths">0</strong>
-            </div>
-            <div class="stat-card">
-                <span data-i18n="demo.trace.risk">Risk</span>
-                <strong id="traceRisk">0</strong>
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <div class="hero-bg">
+            <div class="grid-overlay"></div>
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
+            <div class="gradient-orb orb-3"></div>
+        </div>
+        
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text" data-animate="fade-up">
+                    <div class="hero-badge">
+                        <span class="badge-dot"></span>
+                        <span data-i18n="hero.badge">Ultimate Enterprise Edition</span>
+                    </div>
+                    
+                    <h1 class="hero-title">
+                        <span data-i18n="hero.title1">Financial Intelligence</span>
+                        <span class="gradient-text" data-i18n="hero.title2">Redefined</span>
+                    </h1>
+                    
+                    <p class="hero-subtitle" data-i18n="hero.subtitle">
+                        Advanced traceability platform for financial flows across Banking, PIX, and Blockchain using AI-powered Graph Theory and Real-time Risk Analysis
+                    </p>
+                    
+                    <div class="hero-stats">
+                        <div class="stat-item" data-animate="fade-up" data-delay="100">
+                            <div class="stat-number" data-count="99.99">0</div>
+                            <div class="stat-label" data-i18n="hero.stat1">% Uptime</div>
+                        </div>
+                        <div class="stat-item" data-animate="fade-up" data-delay="200">
+                            <div class="stat-number" data-count="30">0</div>
+                            <div class="stat-label" data-i18n="hero.stat2">ms Latency</div>
+                        </div>
+                        <div class="stat-item" data-animate="fade-up" data-delay="300">
+                            <div class="stat-number" data-count="50">0</div>
+                            <div class="stat-label" data-i18n="hero.stat3">K+ TPS</div>
+                        </div>
+                    </div>
+                    
+                    <div class="hero-actions" data-animate="fade-up" data-delay="400">
+                        <a href="#demo" class="btn-primary btn-lg">
+                            <i class="fas fa-rocket"></i>
+                            <span data-i18n="hero.tryDemo">Try Live Demo</span>
+                        </a>
+                        <a href="https://github.com/felipeofdev-ai/BridgeTrace-AI" class="btn-secondary btn-lg" target="_blank">
+                            <i class="fab fa-github"></i>
+                            <span data-i18n="hero.viewCode">View Code</span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="hero-visual" data-animate="fade-left">
+                    <div class="visual-container">
+                        <div id="heroGraph" class="graph-canvas"></div>
+                        <div class="visual-overlay">
+                            <div class="pulse-dot" style="top: 20%; left: 30%;"></div>
+                            <div class="pulse-dot" style="top: 60%; left: 70%;"></div>
+                            <div class="pulse-dot" style="top: 80%; left: 40%;"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+        
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+        </div>
+    </section>
 
-        <div id="traceGraph" class="graph-container"></div>
+    <!-- Features Section -->
+    <section id="features" class="section features-section">
+        <div class="container">
+            <div class="section-header" data-animate="fade-up">
+                <div class="section-label" data-i18n="features.label">Capabilities</div>
+                <h2 class="section-title" data-i18n="features.title">Ultimate Enterprise Features</h2>
+                <p class="section-subtitle" data-i18n="features.subtitle">
+                    Production-ready platform built for scalability, security, and observability
+                </p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card" data-animate="fade-up" data-delay="0">
+                    <div class="feature-icon gradient-1">
+                        <i class="fas fa-route"></i>
+                    </div>
+                    <h3 data-i18n="features.f1.title">Multi-Hop Tracing</h3>
+                    <p data-i18n="features.f1.desc">Advanced pathfinding through complex transaction chains with configurable depth</p>
+                    <ul class="feature-list">
+                        <li data-i18n="features.f1.l1">1-10 hop depth</li>
+                        <li data-i18n="features.f1.l2">Value filtering</li>
+                        <li data-i18n="features.f1.l3">Risk scoring</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card" data-animate="fade-up" data-delay="100">
+                    <div class="feature-icon gradient-2">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 data-i18n="features.f2.title">AI Risk Analysis</h3>
+                    <p data-i18n="features.f2.desc">ML-powered behavioral assessment with real-time anomaly detection</p>
+                    <ul class="feature-list">
+                        <li data-i18n="features.f2.l1">Pattern analysis</li>
+                        <li data-i18n="features.f2.l2">Anomaly detection</li>
+                        <li data-i18n="features.f2.l3">Predictive scoring</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card" data-animate="fade-up" data-delay="200">
+                    <div class="feature-icon gradient-3">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <h3 data-i18n="features.f3.title">Unified Graph</h3>
+                    <p data-i18n="features.f3.desc">Comprehensive modeling across banking, PIX, and blockchain networks</p>
+                    <ul class="feature-list">
+                        <li data-i18n="features.f3.l1">Multi-domain</li>
+                        <li data-i18n="features.f3.l2">Real-time sync</li>
+                        <li data-i18n="features.f3.l3">Cross-network</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card" data-animate="fade-up" data-delay="0">
+                    <div class="feature-icon gradient-4">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 data-i18n="features.f4.title">Enterprise Security</h3>
+                    <p data-i18n="features.f4.desc">JWT authentication, encryption, and complete audit logging</p>
+                    <ul class="feature-list">
+                        <li data-i18n="features.f4.l1">JWT tokens</li>
+                        <li data-i18n="features.f4.l2">Bcrypt hashing</li>
+                        <li data-i18n="features.f4.l3">Audit logs</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card" data-animate="fade-up" data-delay="100">
+                    <div class="feature-icon gradient-5">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 data-i18n="features.f5.title">Full Observability</h3>
+                    <p data-i18n="features.f5.desc">Prometheus metrics, Grafana dashboards, structured logging</p>
+                    <ul class="feature-list">
+                        <li data-i18n="features.f5.l1">Real-time metrics</li>
+                        <li data-i18n="features.f5.l2">Custom dashboards</li>
+                        <li data-i18n="features.f5.l3">Distributed tracing</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card" data-animate="fade-up" data-delay="200">
+                    <div class="feature-icon gradient-6">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3 data-i18n="features.f6.title">High Performance</h3>
+                    <p data-i18n="features.f6.desc">Async Python, Redis caching, optimized queries</p>
+                    <ul class="feature-list">
+                        <li data-i18n="features.f6.l1">Async/await</li>
+                        <li data-i18n="features.f6.l2">Redis cache</li>
+                        <li data-i18n="features.f6.l3">Query optimization</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Demo Section -->
+    <section id="demo" class="section demo-section">
+        <div class="container-fluid">
+            <div class="section-header" data-animate="fade-up">
+                <div class="section-label" data-i18n="demo.label">Live Platform</div>
+                <h2 class="section-title" data-i18n="demo.title">Interactive Demonstrations</h2>
+                <p class="section-subtitle" data-i18n="demo.subtitle">
+                    Experience all features in real-time with production-grade synthetic data
+                </p>
+            </div>
+            
+            <div class="demo-container">
+                <div class="demo-tabs">
+                    <button class="demo-tab active" data-tab="trace" onclick="switchDemoTab('trace')">
+                        <i class="fas fa-route"></i>
+                        <span data-i18n="demo.tab1">Transaction Tracing</span>
+                    </button>
+                    <button class="demo-tab" data-tab="risk" onclick="switchDemoTab('risk')">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span data-i18n="demo.tab2">Risk Analysis</span>
+                    </button>
+                    <button class="demo-tab" data-tab="graph" onclick="switchDemoTab('graph')">
+                        <i class="fas fa-project-diagram"></i>
+                        <span data-i18n="demo.tab3">Network Graph</span>
+                    </button>
+                    <button class="demo-tab" data-tab="ai" onclick="switchDemoTab('ai')">
+                        <i class="fas fa-robot"></i>
+                        <span data-i18n="demo.tab4">AI Reports</span>
+                    </button>
+                </div>
+                
+                <!-- Trace Demo -->
+                <div id="demo-trace" class="demo-panel active">
+                    <div class="demo-split">
+                        <div class="demo-controls">
+                            <h3 data-i18n="demo.trace.title">Configure Trace</h3>
+                            
+                            <div class="control-group">
+                                <label data-i18n="demo.trace.source">Source Entity</label>
+                                <input type="text" id="traceSource" value="bank_001" class="input-field">
+                            </div>
+                            
+                            <div class="control-group">
+                                <label data-i18n="demo.trace.hops">Maximum Hops</label>
+                                <div class="slider-container">
+                                    <input type="range" id="traceHops" min="1" max="10" value="5" class="slider">
+                                    <span class="slider-value">5</span>
+                                </div>
+                            </div>
+                            
+                            <div class="control-group">
+                                <label data-i18n="demo.trace.amount">Minimum Amount ($)</label>
+                                <input type="number" id="traceAmount" value="1000" class="input-field">
+                            </div>
+                            
+                            <button class="btn-primary btn-lg btn-block" id="executeTraceBtn">
+                                <i class="fas fa-play"></i>
+                                <span data-i18n="demo.trace.execute">Execute Trace</span>
+                            </button>
+                            
+                            <div class="metrics-mini">
+                                <div class="metric-mini">
+                                    <div class="metric-value" id="traceNodes">0</div>
+                                    <div class="metric-label" data-i18n="demo.trace.nodes">Nodes</div>
+                                </div>
+                                <div class="metric-mini">
+                                    <div class="metric-value" id="tracePaths">0</div>
+                                    <div class="metric-label" data-i18n="demo.trace.paths">Paths</div>
+                                </div>
+                                <div class="metric-mini">
+                                    <div class="metric-value" id="traceRisk">0.0</div>
+                                    <div class="metric-label" data-i18n="demo.trace.risk">Risk</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="demo-output">
+                            <div id="traceGraph" class="graph-output"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Risk Demo -->
+                <div id="demo-risk" class="demo-panel">
+                    <div class="demo-split">
+                        <div class="demo-controls">
+                            <h3 data-i18n="demo.risk.title">Risk Assessment</h3>
+                            
+                            <div class="control-group">
+                                <label data-i18n="demo.risk.entity">Entity ID</label>
+                                <input type="text" id="riskEntity" value="entity_001" class="input-field">
+                            </div>
+                            
+                            <div class="control-group">
+                                <label data-i18n="demo.risk.period">Analysis Period</label>
+                                <select id="riskPeriod" class="input-field">
+                                    <option value="7" data-i18n-option="demo.risk.days7">Last 7 days</option>
+                                    <option value="30" selected data-i18n-option="demo.risk.days30">Last 30 days</option>
+                                    <option value="90" data-i18n-option="demo.risk.days90">Last 90 days</option>
+                                </select>
+                            </div>
+                            
+                            <button class="btn-primary btn-lg btn-block" id="executeRiskBtn">
+                                <i class="fas fa-search"></i>
+                                <span data-i18n="demo.risk.execute">Run Risk Analysis</span>
+                            </button>
+                            
+                            <!-- Risk Results Display -->
+                            <div class="risk-results" style="margin-top: 20px;">
+                                <div class="metric-mini">
+                                    <div class="metric-label" data-i18n="demo.risk.score">Risk Score</div>
+                                    <div class="metric-value" id="riskScoreValue" style="font-size: 28px; color: #ef4444;">0.00</div>
+                                </div>
+                                <div class="metric-mini">
+                                    <div class="metric-label" data-i18n="demo.risk.level">Risk Level</div>
+                                    <div class="metric-value" id="riskLevelValue" style="font-size: 18px; color: #94a3b8;">-</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Risk Breakdown -->
+                            <div class="risk-breakdown" style="margin-top: 20px; padding: 15px; background: rgba(15, 23, 42, 0.5); border-radius: 8px;">
+                                <div style="margin-bottom: 10px;">
+                                    <span style="font-size: 12px; color: #94a3b8;" data-i18n="demo.risk.exposure">Exposure Risk</span>
+                                    <span style="float: right; font-weight: 600; color: #f59e0b;" id="exposureValue">0.00</span>
+                                </div>
+                                <div style="margin-bottom: 10px;">
+                                    <span style="font-size: 12px; color: #94a3b8;" data-i18n="demo.risk.structural">Structural Risk</span>
+                                    <span style="float: right; font-weight: 600; color: #f59e0b;" id="structuralValue">0.00</span>
+                                </div>
+                                <div>
+                                    <span style="font-size: 12px; color: #94a3b8;" data-i18n="demo.risk.velocity">Velocity Risk</span>
+                                    <span style="float: right; font-weight: 600; color: #f59e0b;" id="velocityValue">0.00</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="demo-output">
+                            <canvas id="riskChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Graph Demo -->
+                <div id="demo-graph" class="demo-panel">
+                    <div class="demo-full">
+                        <div id="networkGraph" class="graph-output-full"></div>
+                        <div class="graph-controls">
+                            <button class="btn-icon" id="resetGraphBtn" title="Reset View">
+                                <i class="fas fa-compress"></i>
+                            </button>
+                            <button class="btn-icon" id="togglePhysicsBtn" title="Toggle Physics">
+                                <i class="fas fa-atom"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- AI Demo -->
+                <div id="demo-ai" class="demo-panel">
+                    <div class="demo-full">
+                        <div class="ai-controls">
+                            <button class="btn-primary btn-lg" id="generateReportBtn">
+                                <i class="fas fa-file-alt"></i>
+                                <span data-i18n="demo.report.generate">Generate Report</span>
+                            </button>
+                        </div>
+                        <div id="reportContent" class="ai-output"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section id="architecture" class="section arch-section">
+        <div class="container">
+            <div class="section-header" data-animate="fade-up">
+                <div class="section-label" data-i18n="arch.label">System Design</div>
+                <h2 class="section-title" data-i18n="arch.title">Enterprise Architecture</h2>
+                <p class="section-subtitle" data-i18n="arch.subtitle">
+                    Clean architecture with clear layer separation following industry best practices
+                </p>
+            </div>
+            
+            <div class="arch-diagram" data-animate="fade-up">
+                <div class="arch-layer">
+                    <div class="layer-header">
+                        <i class="fas fa-globe"></i>
+                        <span data-i18n="arch.layer1">Presentation Layer</span>
+                    </div>
+                    <div class="layer-components">
+                        <span class="component">FastAPI</span>
+                        <span class="component">OpenAPI</span>
+                        <span class="component">Validation</span>
+                    </div>
+                </div>
+                
+                <div class="arch-arrow"><i class="fas fa-chevron-down"></i></div>
+                
+                <div class="arch-layer">
+                    <div class="layer-header">
+                        <i class="fas fa-cogs"></i>
+                        <span data-i18n="arch.layer2">Application Layer</span>
+                    </div>
+                    <div class="layer-components">
+                        <span class="component">Trace Service</span>
+                        <span class="component">Risk Service</span>
+                        <span class="component">AI Service</span>
+                    </div>
+                </div>
+                
+                <div class="arch-arrow"><i class="fas fa-chevron-down"></i></div>
+                
+                <div class="arch-layer">
+                    <div class="layer-header">
+                        <i class="fas fa-cube"></i>
+                        <span data-i18n="arch.layer3">Domain Layer</span>
+                    </div>
+                    <div class="layer-components">
+                        <span class="component">Business Logic</span>
+                        <span class="component">Graph Algorithms</span>
+                        <span class="component">Validators</span>
+                    </div>
+                </div>
+                
+                <div class="arch-arrow"><i class="fas fa-chevron-down"></i></div>
+                
+                <div class="arch-layer">
+                    <div class="layer-header">
+                        <i class="fas fa-database"></i>
+                        <span data-i18n="arch.layer4">Infrastructure Layer</span>
+                    </div>
+                    <div class="layer-components">
+                        <span class="component">PostgreSQL</span>
+                        <span class="component">Redis</span>
+                        <span class="component">Prometheus</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>BridgeTrace AI</h3>
+                    <p data-i18n="footer.tagline">Ultimate Enterprise Financial Intelligence Platform</p>
+                    <div class="social-links">
+                        <a href="https://github.com/felipeofdev-ai" target="_blank"><i class="fab fa-github"></i></a>
+                        <a href="https://linkedin.com/in/felipe-fernandes" target="_blank"><i class="fab fa-linkedin"></i></a>
+                        <a href="mailto:felipe@bridgetrace.ai"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4 data-i18n="footer.resources">Resources</h4>
+                        <a href="#" data-i18n="footer.docs">Documentation</a>
+                        <a href="#" data-i18n="footer.api">API Reference</a>
+                        <a href="#" data-i18n="footer.guide">Deployment Guide</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4 data-i18n="footer.product">Product</h4>
+                        <a href="#features" data-i18n="footer.features">Features</a>
+                        <a href="#demo" data-i18n="footer.demo">Live Demo</a>
+                        <a href="#architecture" data-i18n="footer.arch">Architecture</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 BridgeTrace AI. <span data-i18n="footer.rights">All rights reserved</span>.</p>
+                <p data-i18n="footer.disclaimer">Educational project using 100% synthetic data</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loader">
+            <div class="loader-ring"></div>
+            <div class="loader-ring"></div>
+            <div class="loader-ring"></div>
+        </div>
+        <p class="loading-text" data-i18n="loading">Processing...</p>
     </div>
-</section>
 
-<!-- =====================
- Loading Overlay
-===================== -->
-<div id="loadingOverlay" class="loading-overlay">
-    <div class="spinner"></div>
-    <p data-i18n="loading">Processing...</p>
-</div>
-
-<!-- =====================
- Footer
-===================== -->
-<footer class="footer">
-    <p>© 2026 BridgeTrace AI — All Rights Reserved</p>
-</footer>
-
-<!-- =====================
- Scripts
-===================== -->
-<script src="app.js"></script>
-
+    <!-- Scripts -->
+    <script src="app.js"></script>
 </body>
 </html>
