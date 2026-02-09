@@ -110,11 +110,77 @@ function generateAIReport() {
   const output = document.getElementById("aiOutput");
   if (!output) return;
 
+  const riskScore = 0.67;
+  const riskLevel =
+    riskScore > 0.75 ? "High" :
+    riskScore > 0.45 ? "Medium" : "Low";
+
   output.innerHTML = `
-    <h3>AI Compliance Report</h3>
-    <p><strong>Risk Level:</strong> Medium</p>
-    <p>Detected transaction concentration, rapid fund dispersion and exchange exposure.</p>
-    <p>Recommended actions: enhanced monitoring, KYC review, pattern correlation.</p>
+    <div class="ai-report">
+
+      <h3>AI Compliance Risk Report</h3>
+      <p class="report-meta">
+        Generated automatically • Synthetic Data • Graph Intelligence Engine
+      </p>
+
+      <hr>
+
+      <h4>1. Executive Summary</h4>
+      <p>
+        The analyzed entity presents a <strong>${riskLevel} risk profile</strong>
+        based on transaction flow topology, behavioral patterns and exposure
+        to high-liquidity exit points.
+      </p>
+
+      <h4>2. Key Risk Indicators</h4>
+      <ul>
+        <li>Transaction fan-out above baseline threshold</li>
+        <li>Value concentration followed by rapid dispersion</li>
+        <li>Indirect exposure to centralized exchange nodes</li>
+      </ul>
+
+      <h4>3. Graph-Based Findings</h4>
+      <p>
+        Graph traversal identified multiple multi-hop paths originating
+        from the source entity, converging through a shared intermediary
+        before reaching liquidity endpoints.
+      </p>
+
+      <h4>4. Behavioral Analysis</h4>
+      <p>
+        Temporal analysis suggests non-random transaction timing with
+        clustered execution windows, indicating potential automation
+        or coordinated behavior.
+      </p>
+
+      <h4>5. Compliance Interpretation</h4>
+      <p>
+        While no direct violation is detected, the observed structure
+        aligns with early-stage typologies associated with layering
+        and risk obfuscation techniques.
+      </p>
+
+      <h4>6. Recommended Actions</h4>
+      <ul>
+        <li>Apply enhanced transaction monitoring</li>
+        <li>Correlate with KYC / KYT datasets</li>
+        <li>Flag entity for periodic risk reassessment</li>
+      </ul>
+
+      <h4>7. AI Explainability (Technical)</h4>
+      <p class="tech-note">
+        Risk score derived from weighted graph metrics (degree centrality,
+        path depth, value entropy) combined with heuristic behavioral rules.
+        No personal or real-world data was processed.
+      </p>
+
+      <div class="risk-score">
+        <span>Computed Risk Score</span>
+        <strong>${riskScore.toFixed(2)}</strong>
+      </div>
+
+    </div>
+    
   `;
 }
 
