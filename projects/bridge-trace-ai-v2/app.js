@@ -426,6 +426,10 @@ function switchDemoTab(tab) {
 }
 
 function executeTrace() {
+    // Prevent any default behaviors
+    event?.preventDefault();
+    event?.stopPropagation();
+    
     showLoading();
     
     setTimeout(() => {
@@ -433,15 +437,42 @@ function executeTrace() {
         const hops = document.getElementById('traceHops').value;
         const amount = document.getElementById('traceAmount').value;
         
-        // Update metrics
-        document.getElementById('traceNodes').textContent = Math.floor(Math.random() * 30) + 10;
-        document.getElementById('tracePaths').textContent = Math.floor(Math.random() * 15) + 5;
-        document.getElementById('traceRisk').textContent = (Math.random() * 0.7 + 0.3).toFixed(2);
+        // Update metrics with smooth animation
+        const nodesValue = Math.floor(Math.random() * 30) + 10;
+        const pathsValue = Math.floor(Math.random() * 15) + 5;
+        const riskValue = (Math.random() * 0.7 + 0.3).toFixed(2);
+        
+        animateValue('traceNodes', 0, nodesValue, 800);
+        animateValue('tracePaths', 0, pathsValue, 800);
+        animateValue('traceRisk', 0, parseFloat(riskValue), 800, true);
         
         // Create trace graph
         createTraceGraph();
         hideLoading();
     }, 1500);
+}
+
+// Helper function to animate counter values
+function animateValue(id, start, end, duration, isDecimal = false) {
+    const element = document.getElementById(id);
+    if (!element) return;
+    
+    const range = end - start;
+    const startTime = performance.now();
+    
+    function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        const current = start + (range * progress);
+        element.textContent = isDecimal ? current.toFixed(2) : Math.floor(current);
+        
+        if (progress < 1) {
+            requestAnimationFrame(update);
+        }
+    }
+    
+    requestAnimationFrame(update);
 }
 
 function createTraceGraph() {
@@ -451,39 +482,123 @@ function createTraceGraph() {
         return;
     }
     
+    // Force container to have proper dimensions
+    container.style.minHeight = '500px';
+    container.style.width = '100%';
+    container.style.position = 'relative';
+    
     // Destroy previous network if exists
     if (traceNetwork) {
-        traceNetwork.destroy();
+        try {
+            traceNetwork.destroy();
+        } catch(e) {
+            console.warn('Error destroying previous network:', e);
+        }
+        traceNetwork = null;
     }
     
-    const nodes = new vis.DataSet([
-        { id: 1, label: 'Source', level: 0, color: { background: '#6366f1' }, font: { color: '#fff' } },
-        { id: 2, label: 'PIX_123', level: 1, color: { background: '#06b6d4' }, font: { color: '#fff' } },
-        { id: 3, label: 'Bank_002', level: 1, color: { background: '#10b981' }, font: { color: '#fff' } },
-        { id: 4, label: 'Crypto_A', level: 2, color: { background: '#f59e0b' }, font: { color: '#fff' } },
-        { id: 5, label: 'Corp_X', level: 2, color: { background: '#ef4444' }, font: { color: '#fff' } },
-        { id: 6, label: 'Bank_003', level: 3, color: { background: '#8b5cf6' }, font: { color: '#fff' } }
-    ]);
+    // Clear container
+    container.innerHTML = '';
     
-    const edges = new vis.DataSet([
-        { from: 1, to: 2, arrows: 'to', label: '$25K', width: 3 },
-        { from: 1, to: 3, arrows: 'to', label: '$18K', width: 2 },
-        { from: 2, to: 4, arrows: 'to', label: '$15K', width: 2 },
-        { from: 3, to: 5, arrows: 'to', label: '$12K', width: 2 },
-        { from: 4, to: 6, arrows: 'to', label: '$10K', width: 2 }
-    ]);
-    
-    const options = {
-        layout: {
-            hierarchical: {
-                direction: 'LR',
-                levelSeparation: 200
-            }
-        },
-        physics: false
-    };
-    
-    traceNetwork = new vis.Network(container, { nodes, edges }, options);
+    // Wait for DOM to update
+    setTimeout(() => {
+        const nodes = new vis.DataSet([
+            { id: 1, label: 'Source\nBank', level: 0, size: 35, color: { background: '#6366f1', border: '#4f46e5' }, font: { color: '#fff', size: 14 } },
+            { id: 2, label: 'PIX\nTransfer', level: 1, size: 30, color: { background: '#06b6d4', border: '#0891b2' }, font: { color: '#fff', size: 13 } },
+            { id: 3, label: 'Bank\nAccount', level: 1, size: 28, color: { background: '#10b981', border: '#059669' }, font: { color: '#fff', size: 13 } },
+            { id: 4, label: 'Crypto\nWallet', level: 2, size: 32, color: { background: '#f59e0b', border: '#d97706' }, font: { color: '#fff', size: 13 } },
+            { id: 5, label: 'Corporate\nEntity', level: 2, size: 30, color: { background: '#ef4444', border: '#dc2626' }, font: { color: '#fff', size: 13 } },
+            { id: 6, label: 'Destination\nBank', level: 3, size: 33, color: { background: '#8b5cf6', border: '#7c3aed' }, font: { color: '#fff', size: 14 } }
+        ]);
+        
+        const edges = new vis.DataSet([
+            { from: 1, to: 2, arrows: { to: { enabled: true, scaleFactor: 1.2 } }, label: '$25,000', width: 3, color: { color: '#6366f1', highlight: '#818cf8' }, smooth: { type: 'cubicBezier' } },
+            { from: 1, to: 3, arrows: { to: { enabled: true, scaleFactor: 1.2 } }, label: '$18,000', width: 2.5, color: { color: '#10b981', highlight: '#34d399' }, smooth: { type: 'cubicBezier' } },
+            { from: 2, to: 4, arrows: { to: { enabled: true, scaleFactor: 1.2 } }, label: '$15,000', width: 2.5, color: { color: '#06b6d4', highlight: '#22d3ee' }, smooth: { type: 'cubicBezier' } },
+            { from: 3, to: 5, arrows: { to: { enabled: true, scaleFactor: 1.2 } }, label: '$12,000', width: 2, color: { color: '#f59e0b', highlight: '#fbbf24' }, smooth: { type: 'cubicBezier' } },
+            { from: 4, to: 6, arrows: { to: { enabled: true, scaleFactor: 1.2 } }, label: '$10,000', width: 2, color: { color: '#ef4444', highlight: '#f87171' }, smooth: { type: 'cubicBezier' } }
+        ]);
+        
+        const options = {
+            layout: {
+                hierarchical: {
+                    direction: 'LR',
+                    levelSeparation: 250,
+                    nodeSpacing: 150,
+                    treeSpacing: 200,
+                    sortMethod: 'directed'
+                }
+            },
+            physics: {
+                enabled: false
+            },
+            interaction: {
+                dragNodes: true,
+                dragView: true,
+                zoomView: true,
+                hover: true,
+                tooltipDelay: 200
+            },
+            nodes: {
+                shape: 'dot',
+                scaling: {
+                    min: 20,
+                    max: 40
+                },
+                font: {
+                    face: 'Inter, sans-serif',
+                    align: 'center',
+                    multi: true
+                },
+                borderWidth: 2,
+                shadow: {
+                    enabled: true,
+                    color: 'rgba(0,0,0,0.3)',
+                    size: 10,
+                    x: 2,
+                    y: 2
+                }
+            },
+            edges: {
+                font: {
+                    size: 12,
+                    color: '#94a3b8',
+                    strokeWidth: 0,
+                    face: 'Inter, sans-serif'
+                },
+                arrowStrikethrough: false,
+                chosen: true
+            },
+            height: '500px',
+            width: '100%'
+        };
+        
+        try {
+            traceNetwork = new vis.Network(container, { nodes, edges }, options);
+            
+            // Fit network after initialization
+            traceNetwork.once('stabilizationIterationsDone', function() {
+                traceNetwork.fit({
+                    animation: {
+                        duration: 1000,
+                        easingFunction: 'easeInOutQuad'
+                    }
+                });
+            });
+            
+            // Add click handler for nodes
+            traceNetwork.on('click', function(params) {
+                if (params.nodes.length > 0) {
+                    const nodeId = params.nodes[0];
+                    console.log('Node clicked:', nodeId);
+                }
+            });
+            
+        } catch(e) {
+            console.error('Error creating network:', e);
+            container.innerHTML = '<div style="color: #ef4444; padding: 2rem; text-align: center;">Error rendering graph. Please try again.</div>';
+        }
+    }, 100);
 }
 
 function executeRiskAnalysis() {
@@ -692,20 +807,41 @@ document.addEventListener('DOMContentLoaded', () => {
     initAnimations();
     initHeroGraph();
     
-    // Execute Trace Button - ANTI-SCROLL
+    // Execute Trace Button - ENHANCED ANTI-SCROLL
     const btnExecuteTrace = document.getElementById('btnExecuteTrace');
     if (btnExecuteTrace) {
-        btnExecuteTrace.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            e.stopImmediatePropagation();
+        // Remove any existing listeners
+        btnExecuteTrace.onclick = null;
+        
+        // Add new listener with comprehensive event handling
+        btnExecuteTrace.addEventListener('click', function(event) {
+            // Prevent all default behaviors
+            event.preventDefault();
+            event.stopPropagation();
+            event.stopImmediatePropagation();
+            
+            // Execute trace
             executeTrace();
+            
+            // Return false to be extra sure
             return false;
-        }, true); // Use capture phase
+        }, { capture: true, once: false });
+        
+        // Also prevent form submission if button is in a form
+        const parentForm = btnExecuteTrace.closest('form');
+        if (parentForm) {
+            parentForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                return false;
+            });
+        }
     }
     
-    // Smooth scroll
+    // Smooth scroll for navigation links (excluding trace button)
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        // Skip if this is somehow attached to our trace button
+        if (anchor.id === 'btnExecuteTrace') return;
+        
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
