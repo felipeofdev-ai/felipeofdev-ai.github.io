@@ -303,7 +303,7 @@
                                 <input type="number" id="traceAmount" value="1000" class="input-field">
                             </div>
                             
-                            <button class="btn-primary btn-lg btn-block" id="executeTraceBtn">
+                            <button class="btn-primary btn-lg btn-block" onclick="executeTrace(event)">
                                 <i class="fas fa-play"></i>
                                 <span data-i18n="demo.trace.execute">Execute Trace</span>
                             </button>
@@ -350,38 +350,10 @@
                                 </select>
                             </div>
                             
-                            <button class="btn-primary btn-lg btn-block" id="executeRiskBtn">
+                            <button class="btn-primary btn-lg btn-block" onclick="executeRiskAnalysis()">
                                 <i class="fas fa-search"></i>
-                                <span data-i18n="demo.risk.execute">Run Risk Analysis</span>
+                                <span data-i18n="demo.risk.analyze">Analyze Risk</span>
                             </button>
-                            
-                            <!-- Risk Results Display -->
-                            <div class="risk-results" style="margin-top: 20px;">
-                                <div class="metric-mini">
-                                    <div class="metric-label" data-i18n="demo.risk.score">Risk Score</div>
-                                    <div class="metric-value" id="riskScoreValue" style="font-size: 28px; color: #ef4444;">0.00</div>
-                                </div>
-                                <div class="metric-mini">
-                                    <div class="metric-label" data-i18n="demo.risk.level">Risk Level</div>
-                                    <div class="metric-value" id="riskLevelValue" style="font-size: 18px; color: #94a3b8;">-</div>
-                                </div>
-                            </div>
-                            
-                            <!-- Risk Breakdown -->
-                            <div class="risk-breakdown" style="margin-top: 20px; padding: 15px; background: rgba(15, 23, 42, 0.5); border-radius: 8px;">
-                                <div style="margin-bottom: 10px;">
-                                    <span style="font-size: 12px; color: #94a3b8;" data-i18n="demo.risk.exposure">Exposure Risk</span>
-                                    <span style="float: right; font-weight: 600; color: #f59e0b;" id="exposureValue">0.00</span>
-                                </div>
-                                <div style="margin-bottom: 10px;">
-                                    <span style="font-size: 12px; color: #94a3b8;" data-i18n="demo.risk.structural">Structural Risk</span>
-                                    <span style="float: right; font-weight: 600; color: #f59e0b;" id="structuralValue">0.00</span>
-                                </div>
-                                <div>
-                                    <span style="font-size: 12px; color: #94a3b8;" data-i18n="demo.risk.velocity">Velocity Risk</span>
-                                    <span style="float: right; font-weight: 600; color: #f59e0b;" id="velocityValue">0.00</span>
-                                </div>
-                            </div>
                         </div>
                         
                         <div class="demo-output">
@@ -395,10 +367,10 @@
                     <div class="demo-full">
                         <div id="networkGraph" class="graph-output-full"></div>
                         <div class="graph-controls">
-                            <button class="btn-icon" id="resetGraphBtn" title="Reset View">
+                            <button class="btn-icon" onclick="resetGraphView()" title="Reset View">
                                 <i class="fas fa-compress"></i>
                             </button>
-                            <button class="btn-icon" id="togglePhysicsBtn" title="Toggle Physics">
+                            <button class="btn-icon" onclick="togglePhysics()" title="Toggle Physics">
                                 <i class="fas fa-atom"></i>
                             </button>
                         </div>
@@ -409,12 +381,12 @@
                 <div id="demo-ai" class="demo-panel">
                     <div class="demo-full">
                         <div class="ai-controls">
-                            <button class="btn-primary btn-lg" id="generateReportBtn">
+                            <button class="btn-primary btn-lg" onclick="generateAIReport()">
                                 <i class="fas fa-file-alt"></i>
-                                <span data-i18n="demo.report.generate">Generate Report</span>
+                                <span data-i18n="demo.ai.generate">Generate Compliance Report</span>
                             </button>
                         </div>
-                        <div id="reportContent" class="ai-output"></div>
+                        <div id="aiOutput" class="ai-output"></div>
                     </div>
                 </div>
             </div>
