@@ -425,17 +425,7 @@ function switchDemoTab(tab) {
     }
 }
 
-function executeTrace(event) {
-    // CRITICAL: Prevent ALL default behaviors and scroll
-    if (event) {
-        event.preventDefault();
-        event.stopPropagation();
-        event.stopImmediatePropagation();
-    }
-    
-    // Prevent any scroll behavior
-    const scrollY = window.scrollY;
-    
+function executeTrace() {
     showLoading();
     
     setTimeout(() => {
@@ -451,12 +441,7 @@ function executeTrace(event) {
         // Create trace graph
         createTraceGraph();
         hideLoading();
-        
-        // Restore scroll position if it changed
-        window.scrollTo(0, scrollY);
     }, 1500);
-    
-    return false;
 }
 
 function createTraceGraph() {
@@ -706,6 +691,18 @@ document.addEventListener('DOMContentLoaded', () => {
     initLanguage();
     initAnimations();
     initHeroGraph();
+    
+    // Execute Trace Button - ANTI-SCROLL
+    const btnExecuteTrace = document.getElementById('btnExecuteTrace');
+    if (btnExecuteTrace) {
+        btnExecuteTrace.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            executeTrace();
+            return false;
+        }, true); // Use capture phase
+    }
     
     // Smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
