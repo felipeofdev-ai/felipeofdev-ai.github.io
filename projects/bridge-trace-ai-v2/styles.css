@@ -1347,3 +1347,88 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+/* Risk Analysis Enhancements */
+.risk-results {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.risk-breakdown {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(15, 23, 42, 0.5);
+    border-radius: 8px;
+    border: 1px solid rgba(99, 102, 241, 0.2);
+}
+
+.risk-breakdown > div {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.risk-breakdown > div:last-child {
+    border-bottom: none;
+}
+
+/* Report Sections */
+.report-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: rgba(15, 23, 42, 0.3);
+    border-radius: 8px;
+    border-left: 4px solid #6366f1;
+}
+
+.report-section h3 {
+    color: #e2e8f0;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.report-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(99, 102, 241, 0.2);
+    color: #818cf8;
+}
+
+.report-icon.alert {
+    background: rgba(239, 68, 68, 0.2);
+    color: #f87171;
+}
+
+.report-icon.warning {
+    background: rgba(245, 158, 11, 0.2);
+    color: #fbbf24;
+}
+
+.report-icon.success {
+    background: rgba(16, 185, 129, 0.2);
+    color: #34d399;
+}
+
+.risk-findings, .pattern-list, .action-list {
+    color: #cbd5e1;
+    line-height: 1.8;
+}
+
+.risk-findings li, .pattern-list li, .action-list li {
+    margin-bottom: 12px;
+}
+
+.report-footer {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(148, 163, 184, 0.2);
+    color: #94a3b8;
+    font-size: 0.9rem;
+}
